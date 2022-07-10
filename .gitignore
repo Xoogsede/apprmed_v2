@@ -12,9 +12,6 @@ instance/*
 .brouillon.py
 brouillon/
 .importdonnees.sql
-configurations.py
-config/
-config.py
 sql/
 organisation_app/
 donnees_CSV/
