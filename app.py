@@ -8,7 +8,7 @@ from app.models import User
 
 
 if __name__ == '__main__': 
-    rmedapp = create_app('config.DevelopmentConfig')
+    rmedapp = create_app('config.ProductionConfig')
     with rmedapp.app_context():
         db.create_all()
         if not User.query.filter_by(matricule='1000000000').first():
