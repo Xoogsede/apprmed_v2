@@ -4,7 +4,7 @@ from app.db_extention import db
 from flask import render_template
 from app.models import User
 
-rmedapp = create_app('config.ProductionConfig')
+rmedapp = create_app('config.DevelopmentConfig')
 with rmedapp.app_context():
     db.create_all()
     if not User.query.filter_by(matricule='1000000000').first():
@@ -12,13 +12,4 @@ with rmedapp.app_context():
             matricule='1000000000',
             fonction = 'auxiliaire sanitaire',
             mdp='topsecret_')
-
-@rmedapp.route('/')
-def home():
-    return render_template('home.html')   
-
-
-
-
-rmedapp.run()
-
+    rmedapp.run()

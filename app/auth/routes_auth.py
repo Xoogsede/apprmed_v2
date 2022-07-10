@@ -5,6 +5,12 @@ from app.auth import authentication as at
 from app.models import User
 
 
+@at.route('/')
+def home():
+    return render_template('home.html') 
+
+
+
 @at.route('/register', methods=['GET', 'POST'])
 def register_user():
     
