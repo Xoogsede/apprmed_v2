@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <link rel="stylesheet" href="/static/css/style.css"/>
+  <h1>Suivi de tous les blessés.</h1>
+  <ul>
+    <h>
+    <body>
+      <table class="table">
+        <tr class="table__header">
+          {% for header in headings %}
+          <th class="table__cell">{{ header }}</th>
+          {% endfor %}          
+        </tr>
+        {% for row in data | sort(reverse = True) %}
+        <tr class="table__row">
+          {% set rowloop = loop %}
+          {% for cell in row %}
+          <td class="table__cell" id="cell-{{ rowloop.index }}-{{ loop.index }}">{{ cell }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+    </body>
+       </h>  
+    <br>
+    <!-- {% for item in blesses |sort(attribute='gdhblessure') %}
+        <li>{{item.matricule}}, {{item.categorieabc}}, {{item.coordonneesutmblesse}}, {{item.gdhblessure}}, {{item.gdhevacue}}, {{item.unite_elementaire}}</li>
+    {% endfor %} -->
+  </ul>
+
+</div>
+{% endblock %}
+
+
+<th>Categorie</th>
+          <th>Coordonnées</th>
+          <th>GHD blessure</th>
+          <th>GDH évacué</th>
+          <th>Unité</th>

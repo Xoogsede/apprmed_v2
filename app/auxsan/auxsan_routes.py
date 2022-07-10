@@ -1,0 +1,125 @@
+from flask import Blueprint, render_template, redirect, url_for, request, flash
+from app.models import *
+from .formulaire import *
+from app import video_reader
+
+
+auxsan_bp = Blueprint('auxsan', __name__, template_folder='templates')
+
+#####################################################################################
+# Ajout de blessé #
+#####################################################################################
+@auxsan_bp.route('/AjouterBlesse', methods=['GET', 'POST'])
+def AjoutBlesse():
+
+    form = AjouterBlesse()     
+
+    if request.method == 'POST':
+        if request.values.get('matricule')=='Matricule':
+            form.matricule.data = video_reader()
+            return render_template('auxsan/AjouterBlesse.html', 
+            form=form, video_reader=video_reader)
+
+    if form.validate_on_submit():
+        matricule = form.matricule.data
+        categorie_blesse = form.categorie_blesse.data
+        coordonnees_UTM_blesse = form.coordonnees_UTM_blesse.data
+        symptomes = form.symptomes.data
+        blesse_couche = 'True'==form.blesse_couche.data
+
+
+        # Controle que le blessé n'est pas déjà enregistrer et qu'il n'est pas évacué.
+        blesse_deja_enregistrer = session.query(blesse).filter_by(matricule=matricule).all()
+
+        if blesse_deja_enregistrer == []:
+            session.add(blesse(idblesse=None, matricule= matricule, 
+                                categorieabc = categorie_blesse, 
+                                coordonneesutmblesse=coordonnees_UTM_blesse,
+                                gdhblessure=datetime.now(),gdhevacue= None,
+                                unite_elementaire= None,
+                                numdemande= None, symptomes=symptomes, 
+                                blesse_couche=blesse_couche))                                
+            session.commit()
+
+            flash("Blessé '{}' ajouté ! ".format(matricule))
+            return redirect(url_for('auxsan.liste_blesses'))
+
+        elif (blesse_deja_enregistrer[-1].gdhevacue is not None):
+            session.add(blesse(idblesse=None, matricule= matricule, 
+                                categorieabc = categorie_blesse, 
+                                coordonneesutmblesse=coordonnees_UTM_blesse,
+                                gdhblessure=datetime.now(),gdhevacue= None,
+                                unite_elementaire= None,
+                                numdemande= None, symptomes=symptomes, 
+                                blesse_couche=blesse_couche))
+            session.commit()
+
+            flash('Blessé à nouveau ajouté ! ')
+            return redirect(url_for('auxsan.liste_blesses'))
+
+        else:
+            flash("Blessé '{}' déjà enregistré mais non encore évacué !".format(matricule))
+            return redirect(url_for('auxsan.AjoutBlesse'))
+
+    return render_template('auxsan/AjouterBlesse.html', form=form, video_reader=video_reader)
+
+
+
+#####################################################################################
+# Tableau de tous les blessés #
+#####################################################################################
+@auxsan_bp.route('/liste_blesses')
+def liste_blesses():
+    headings = ("N° blessé", "Matricule", "Categorie A B C", 
+                "coordonnees UTM", "GDH blessure", 
+                "GDH évacué","Unité", "Blesse couché")
+
+    blesses = session.query(blesse).all()
+    data = []
+    for b in blesses:
+        if b.gdhevacue != None: 
+            evac = b.gdhevacue.strftime("%d%H%M %b %Y") 
+        else: 
+            evac = b.gdhevacue
+        data.append((b.idblesse, b.matricule, b.categorieabc, 
+                    b.coordonneesutmblesse, b.gdhblessure.strftime("%d%H%M %b %Y"), 
+                    evac, b.unite_elementaire, b.blesse_couche))
+
+    return render_template('auxsan/liste_blesses.html', headings=headings, data=data) 
+
+
+
+#####################################################################################
+# Mise à jour du blessé #
+#####################################################################################
+@auxsan_bp.route('/MiseAJourblesse', methods=['GET', 'POST'])
+def MiseAJour():
+    
+    form = MiseAJourblesse()
+
+    if request.method == 'POST':
+        if request.values.get('matricule')=='Matricule':
+            form.matricule.data = video_reader()
+            return render_template('auxsan/MiseAJourblesse.html', 
+            form=form, video_reader=video_reader)
+
+    if form.validate_on_submit():
+        matricule = form.matricule.data
+        blesse_couche = 'True'==form.blesse_couche.data
+        categorie_blesse = form.categorie_blesse.data
+        
+        blesseamettreajour = session.query(blesse).filter_by(matricule=matricule).all()[-1] 
+        if blesseamettreajour != [] :
+
+            blesseamettreajour.categorieabc = categorie_blesse
+            blesseamettreajour.blesse_couche = blesse_couche
+            session.add(blesseamettreajour)
+            session.commit()
+            flash("Le blessé '{}' a été mis à jour avec succès !".format(matricule))
+        else:
+            flash("'{}' inconnu parmi les blessés, merci de vérifier.".format(matricule))
+            return redirect(url_for('auxsan.MiseAJourblesse'))
+
+        return redirect(url_for('auxsan.liste_blesses'))
+    
+    return render_template('auxsan/MiseAJourblesse.html', form=form, video_reader=video_reader)

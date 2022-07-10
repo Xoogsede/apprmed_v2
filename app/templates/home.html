@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  {% if current_user.is_authenticated %}
+  <h1>Bienvenue sur l'application de gestion des blessés.</h1>
+  <p>Merci de cliquer sur les liens de navigation.</p>
+  {% else%}
+  <p><h2>Merci de vous enregister ou de vous connecter.</h2></p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Connectez-vous{% endblock %}
+{% block content %}
+    <div class="container form">
+        <h4>Identifiez vous ici.</h4>
+        <hr><br>
+        {{ wtf.quick_form(form) }}
+    </div>>
+{% endblock content %}

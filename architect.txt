@@ -1,0 +1,91 @@
+AppRmed/
+|
+├── api/
+|   ├── __init__.py
+|   └── api.py
+|
+├── auth/
+|   ├── templates/
+|   |   └── auth/
+|   |       ├── login.html
+|   |       ├── forgot_password.html
+|   |       └── signup.html
+|   |
+|   ├── __init__.py
+|   └── auth.py
+|
+├── auxsan/
+|   ├── templates/
+|   |   └── auxsan/
+|   |       ├── AjouterBlesse.html
+|   |       ├── checkout.html
+|   |       ├── home.html
+|   |       ├── list_blesses.html
+|   |       ├── MiseAJourblesse.html
+|   |       └── view.html
+|   |
+|   ├── formulaire.py
+|   ├── __init__.py
+|   └── auxsan.py
+|
+├── litsoin/
+|   ├── static/
+|   |   └── view.js
+|   |
+|   ├── templates/
+|   |   └── litsoin/
+|   |       ├── list.html
+|   |       └── view.html
+|   |
+|   ├── __init__.py
+|   └── litsoin.py
+|
+├── magasin/
+|   ├── static/
+|   |   └── view.js
+|   |
+|   ├── templates/
+|   |   └── magasin/
+|   |       ├── list.html
+|   |       └── view.html
+|   |
+|   ├── __init__.py
+|   └── magasin.py
+|
+├── pc/
+|   ├── templates/
+|   |   └── pc/
+|   |       └── index.html
+|   |
+|   ├── __init__.py
+|   └── pc.py
+|
+├── transport/
+|   ├── static/
+|   |   └── view.js
+|   |
+|   ├── templates/
+|   |   └── transport/
+|   |       ├── list.html
+|   |       └── view.html
+|   |
+|   ├── __init__.py
+|   └── transport.py
+|
+├── static/
+|   ├── logo.png
+|   ├── css
+|   |   └──main.css
+|   ├── img
+|   |   └──logo.png
+|   ├── js
+|   |   └── generic.js
+|
+├── templates/
+|   ├── base.html
+|   └── home.html
+|
+├── app.py
+├── config.py
+├── db_extention.py
+└── models.py

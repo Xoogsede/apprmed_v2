@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+{% import 'macro.html' as matricule %}
+<div class="container form">
+  <h1>Categoriser un blessé</h1>
+  <p>Mettre à jour sa catégorie.</p>
+ 
+  {{ matricule.matricule(name="matricule", action="/auxsan/MiseAJourblesse") }}
+  <hr><br>
+  {{ wtf.quick_form(form) }}
+    </div>>
+</div>
+{% endblock %}

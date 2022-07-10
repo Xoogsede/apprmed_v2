@@ -1,0 +1,9 @@
+{% macro input(name, value='', type='text') %}
+    <input type="text" name="matricule" value="{{ video_reader() }}" />   
+{% endmacro %}
+
+{% macro matricule(name='matricule', value='Matricule', type='text', action="/auxsan/AjouterBlesse") %}
+<form method="POST" action="{{ action }}">
+    <a><input type="submit" value="Matricule" name='matricule'></a>    
+  </form>
+{% endmacro %}
