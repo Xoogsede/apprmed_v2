@@ -18,7 +18,7 @@ def register_user():
 
     if current_user.is_authenticated:
         flash('Vous êtes déjà enregistré !')
-        return redirect(url_for('home'))
+        return redirect(url_for('authentication.home'))
 
     if form.validate_on_submit():
         User.create_user(
@@ -42,7 +42,7 @@ def bienvenue():
 def deconnexion():
     logout_user()
     flash("Vous etes déconnecté !")
-    return redirect(url_for('home'))
+    return redirect(url_for('authentication.home'))
 
 
 
@@ -50,7 +50,7 @@ def deconnexion():
 def login():
     if current_user.is_authenticated:
         flash('Vous êtes déjà connecté !')
-        return redirect(url_for('home'))
+        return redirect(url_for('authentication.home'))
 
     form = LoginForm()
 
@@ -68,7 +68,7 @@ def login():
             else: 
                 flash("Erreur, merci d'essayer à nouveau")
                 return redirect(url_for('authentication.login'))           
-            return redirect(url_for('home'))
+            return redirect(url_for('authentication.home'))
         else:
             flash("Matricule '{}' inconnu, merci de vous enregistrer.".format(form.matricule.data))
             return redirect(url_for('authentication.register_user'))

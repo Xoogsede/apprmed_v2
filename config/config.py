@@ -5,9 +5,9 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = 'Pnese45454s$$$$******ddddddddddd'
-    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://postgres:Presentchezpostgresql12fois$@localhost:5432/StageM2_BD"
-    SQLALCHEMY_DATABASE_URL = "postgresql:///StageM2_BD"#os.environ['DATABASE_URL']
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
+    SQLALCHEMY_DATABASE_URL = os.getenv('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
@@ -27,22 +27,3 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-
-
-
-# # WTF_CSRF_SECRET_KEY = 'Pnese45454s$$$$******ddddddddddd'
-# SECRET_KEY = 'Pnese45454s$$$$******ddddddddddd'
-
-# postgresql = {
-# 'HOST' : 'localhost',
-# 'DATABASE' : 'StageM2_BD',
-# 'USER' : 'postgres',
-# 'PASSWORD' : 'Presentchezpostgresql12fois$',
-# 'PORT' : 5432
-# }
-
-# # DATABASE_URI= 'postgres+psycopg2://{}:{}@{}:{}/{}'.format(USER, PASSWORD, HOST, PORT, DATABASE)
-# # # 'postgres+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{DATABASE}'
-
-######################################################################################################
-
