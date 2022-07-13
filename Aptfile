@@ -1,3 +1,7 @@
+libgl1
+libsm6
+libxrender1
 libice6
+ffmpeg 
 libxext6
 libzbar-dev -y
