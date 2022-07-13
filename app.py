@@ -14,4 +14,4 @@ with rmedapp.app_context():
             fonction = 'auxiliaire sanitaire',
             mdp='topsecret_')
             
-    rmedapp.run(host='0.0.0.0', port=5000,  debug=os.environ.get('DEBUG')=='1')
+    rmedapp.run()
