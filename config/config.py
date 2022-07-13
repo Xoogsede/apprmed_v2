@@ -1,21 +1,11 @@
 import os
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-
-HEROKU = 'HEROKU' or 'heroku' in os.environ
-
-if HEROKU:
-    DATABASE_URL = os.environ.get('HEROKU_DATABASE_URL')
-else:
-    DATABASE_URL = os.environ.get('DATABASE_URI')
-
 class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = "qsdfq1212sdfqsdfefqfdfq"
-    SQLALCHEMY_DATABASE_URI = DATABASE_URL
-    #SQLALCHEMY_DATABASE_URL = os.getenv('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
 
@@ -31,8 +21,8 @@ class StagingConfig(Config):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
-    HOST = '10.211.55.18'
-    PORT = 9999
+    HOST = '0.0.0.0'
+    PORT = 5000
 
 
 class TestingConfig(Config):

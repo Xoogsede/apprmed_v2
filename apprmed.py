@@ -1,6 +1,5 @@
 # app launch
 from app import create_app
-from app import db_extention 
 from app.db_extention import db
 from app.models import User
 import os
