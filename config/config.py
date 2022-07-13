@@ -5,7 +5,7 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = "qsdfq1212sdfqsdfefqfdfq"
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'].replace('postgres', 'postgresql+psycopg2')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
 

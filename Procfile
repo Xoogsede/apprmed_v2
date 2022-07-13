@@ -1,1 +1,1 @@
-web: python apprmed.py
+web: gunicorn apprmed:app
