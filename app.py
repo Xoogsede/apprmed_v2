@@ -1,9 +1,11 @@
 # app launch
+from distutils.log import debug
 from app import create_app 
 from app.db_extention import db
 from app.models import User
+import os
 
-rmedapp = create_app('config.ProductionConfig')
+rmedapp = create_app('config.DevelopmentConfig')
 with rmedapp.app_context():
     db.create_all()
     if not User.query.filter_by(matricule='1000000000').first():
