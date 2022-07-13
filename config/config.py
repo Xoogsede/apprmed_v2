@@ -1,14 +1,20 @@
 import os
 
-from cv2 import HOUGH_STANDARD
 basedir = os.path.abspath(os.path.dirname(__file__))
+
+HEROKU = 'HEROKU' or 'heroku' in os.environ
+
+if HEROKU:
+    DATABASE_URL = os.environ.get('HEROKU_DATABASE_URL')
+else:
+    DATABASE_URL = os.environ.get('DATABASE_URI')
 
 class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = "qsdfq1212sdfqsdfefqfdfq"
-    SQLALCHEMY_DATABASE_URI = os.environ('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = DATABASE_URL
     #SQLALCHEMY_DATABASE_URL = os.getenv('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     

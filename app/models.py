@@ -33,8 +33,8 @@ session = Session(engine)
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-class User(db.Model, UserMixin): 
-    # __bind_key__ = 'db_deux'
+class User(db.Model, UserMixin):
+
     __tablename__ = 'users'
     id = db.Column(db.Integer(), primary_key = True)
     matricule = db.Column(db.String(10), unique = True)
@@ -106,5 +106,4 @@ def showblesse(maTable):
         gdhevacue = str(instance.gdhevacue)
         bles = [instance.matricule, instance.categorieabc, instance.coordonneesutmblesse, gdhblessure, gdhevacue, instance.unite_elementaire]
         lignes.append(bles)
-        # print(str(bles))
     return lignes

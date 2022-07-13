@@ -11,7 +11,7 @@ import cv2
 import numpy as np
 from pyzbar.pyzbar import decode 
 def video_reader():
-    cam = cv2.VideoCapture(1)
+    cam = cv2.VideoCapture(0)
     detector = cv2.QRCodeDetector()
     while True:
         _, img = cam.read()
