@@ -1,6 +1,6 @@
 # app launch
-from distutils.log import debug
-from app import create_app 
+from app import create_app
+from app import db_extention 
 from app.db_extention import db
 from app.models import User
 import os
@@ -13,5 +13,5 @@ with rmedapp.app_context():
             matricule='1000000000',
             fonction = 'auxiliaire sanitaire',
             mdp='topsecret_')
-            
-    rmedapp.run()
+    port=os.environ.get('PORT',5000)    
+    rmedapp.run(debug=False, host="0.0.0.0", port=port)
