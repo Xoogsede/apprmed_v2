@@ -1,11 +1,15 @@
 import os
+uri = os.getenv("DATABASE_URL") # or other relevant config var 
+if uri and uri.startswith("postgres://"): 
+    uri = uri.replace("postgres://", "postgresql://")
+
 
 class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = "qsdfq1212sdfqsdfefqfdfq"
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'].replace('postgres', 'postgresql+psycopg2')
+    SQLALCHEMY_DATABASE_URI = uri #os.environ['DATABASE_URL'].replace('postgres', 'postgresql+psycopg2')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
 

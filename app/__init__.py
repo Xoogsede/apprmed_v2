@@ -34,9 +34,7 @@ def video_reader():
 def create_app(config_type):
 
     app = Flask(__name__)
-
-
-    basedir = os.path.abspath(os.path.dirname(__file__))   
+  
     app.config.from_object(config_type)
 
     db.init_app(app)    
