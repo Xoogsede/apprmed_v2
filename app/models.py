@@ -10,13 +10,15 @@ from sqlalchemy.orm import Session
 import os
 
 
-
+uri = os.environ["DATABASE_URL"]  
+if uri and uri.startswith("postgres://"): 
+    uri = uri.replace("postgres://", "postgresql+psycopg2://")
 
 
 #########################################
 # BASE DE DONNEES StageM2_BD ############
 #########################################
-engine = create_engine(os.environ['DATABASE_URI'])
+engine = create_engine(uri)
 # app= Flask('__name__')
 
 # app.config.from_object('config.ProductionConfig')
