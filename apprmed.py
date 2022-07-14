@@ -6,8 +6,8 @@ from app.db_extention import db
 import os
 
 if __name__ == "__main__":
-    rmedapp = create_app('config.ProductionConfig')
-    with rmedapp.app_context():
+    app = create_app('config.ProductionConfig')
+    with app.app_context():
         from app.models import User
         db.create_all()
         if not User.query.filter_by(matricule='1000000000').first():
@@ -16,4 +16,4 @@ if __name__ == "__main__":
                 fonction = 'auxiliaire sanitaire',
                 mdp='topsecret_')            
         port=os.environ.get('PORT',5000)
-        rmedapp.run(debug=False, host="0.0.0.0", port=port)
+        app.run(debug=False, host="0.0.0.0", port=port)
