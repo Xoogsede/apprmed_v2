@@ -16,7 +16,7 @@ import os
 #########################################
 # BASE DE DONNEES StageM2_BD ############
 #########################################
-engine = create_engine(os.environ.get('DATABASE_URI'))
+engine = create_engine(os.environ['DATABASE_URL'])
 # app= Flask('__name__')
 
 # app.config.from_object('config.ProductionConfig')
