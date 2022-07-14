@@ -3,7 +3,7 @@ uri = os.environ["DATABASE_URI"]
 url = os.environ["DATABASE_URL"] 
 if url and url.startswith("postgres://"): 
     url = url.replace("postgres://", "postgresql+psycopg2://")
-    uri = url.replace("postgres://", "postgresql://")
+    uri = uri.replace("postgres://", "postgresql://")
 
 
 class Config(object):
