@@ -9,8 +9,6 @@ from app.models import User
 def home():
     return render_template('home.html') 
 
-
-
 @at.route('/register', methods=['GET', 'POST'])
 def register_user():
     
@@ -74,6 +72,6 @@ def login():
             return redirect(url_for('authentication.register_user'))
     return render_template('auth/login.html', form=form)
 
-at.app_errorhandler(404)
-def page_non_trouvee(erreur):
-    return render_template('404.html'), 404
+@at.app_errorhandler(404)
+def page_non_trouvee(error):
+    return render_template('auth/404.html'), 404

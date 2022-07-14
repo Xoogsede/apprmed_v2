@@ -1,91 +1,112 @@
 AppRmed/
 |
-├── api/
-|   ├── __init__.py
-|   └── api.py
-|
-├── auth/
-|   ├── templates/
-|   |   └── auth/
-|   |       ├── login.html
-|   |       ├── forgot_password.html
-|   |       └── signup.html
+├── app/
+|   ├── api/
+|   |   ├── __init__.py
+|   |   └── api.py
 |   |
-|   ├── __init__.py
-|   └── auth.py
-|
-├── auxsan/
-|   ├── templates/
-|   |   └── auxsan/
-|   |       ├── AjouterBlesse.html
-|   |       ├── checkout.html
-|   |       ├── home.html
-|   |       ├── list_blesses.html
-|   |       ├── MiseAJourblesse.html
-|   |       └── view.html
+|   ├── auth/
+|   |   ├── templates/
+|   |   |   └── auth/
+|   |   |       ├── 404 
+|   |   |       ├──Bienvenue.html
+|   |   |       ├──forgot_password.html
+|   |   |       ├── home.html
+|   |   |       ├── login.html
+|   |   |       ├── logout.html
+|   |   |       └── registration.html
+|   |   |
+|   |   ├── __init__.py
+|   |   ├──  form.py
+|   |   └── route_auth.py
 |   |
-|   ├── formulaire.py
-|   ├── __init__.py
-|   └── auxsan.py
-|
-├── litsoin/
+|   ├── auxsan/
+|   |   ├── templates/
+|   |   |   └── auxsan/
+|   |   |       ├── AjouterBlesse.html
+|   |   |       ├── list_blesses.html
+|   |   |       └──  MiseAJourblesse.html
+|   |   |
+|   |   ├── __init__.py
+|   |   ├── auxsan_routes.py
+|   |   └── formulaire.py 
+|   |
+|   ├── litsoin/
+|   |   ├── static/
+|   |   |   └── view.js
+|   |   |
+|   |   ├── templates/
+|   |   |   └── litsoin/
+|   |   |       ├── list.html
+|   |   |       └── view.html
+|   |   |
+|   |   ├── __init__.py
+|   |   └── litsoin.py
+|   |
+|   ├── magasin/
+|   |   ├── static/
+|   |   |   └── view.js
+|   |   |
+|   |   ├── templates/
+|   |   |   └── magasin/
+|   |   |       ├── list.html
+|   |   |       └── view.html
+|   |   |
+|   |   ├── __init__.py
+|   |   └── magasin.py
+|   |
+|   ├── pc/
+|   |   ├── templates/
+|   |   |   └── pc/
+|   |   |       └── index.html
+|   |   |
+|   |   ├── __init__.py
+|   |   └── pc.py
+|   |
+|   ├── transport/
+|   |   ├── static/
+|   |   |   └── view.js
+|   |   |
+|   |   ├── templates/
+|   |   |   └── transport/
+|   |   |       ├── list.html
+|   |   |       └── view.html
+|   |   |
+|   |   ├── __init__.py
+|   |   └── transport.py
+|   |
 |   ├── static/
-|   |   └── view.js
+|   |   ├── logo.png
+|   |   ├── css
+|   |   |   └──main.css
+|   |   ├── img
+|   |   |   └──logo.png
+|   |   └── js
+|   |       └── generic.js
 |   |
 |   ├── templates/
-|   |   └── litsoin/
-|   |       ├── list.html
-|   |       └── view.html
-|   |
+|   |   ├── base.html
+|   |   ├── home.html
+|   |   └── macro.html
 |   ├── __init__.py
-|   └── litsoin.py
-|
-├── magasin/
-|   ├── static/
-|   |   └── view.js
-|   |
-|   ├── templates/
-|   |   └── magasin/
-|   |       ├── list.html
-|   |       └── view.html
-|   |
+|   ├── db_extention.py
+|   └── models.py
+|   
+├── config/
 |   ├── __init__.py
-|   └── magasin.py
+|   └── config.py
 |
-├── pc/
-|   ├── templates/
-|   |   └── pc/
-|   |       └── index.html
-|   |
-|   ├── __init__.py
-|   └── pc.py
+├── migrations/
+|   ├──versions/
+|   |   └──migrationfile.py
+|   ├── alembic.ini
+|   ├── env.py
+|   ├── README
+|   └──  script.py.mako
 |
-├── transport/
-|   ├── static/
-|   |   └── view.js
-|   |
-|   ├── templates/
-|   |   └── transport/
-|   |       ├── list.html
-|   |       └── view.html
-|   |
-|   ├── __init__.py
-|   └── transport.py
-|
-├── static/
-|   ├── logo.png
-|   ├── css
-|   |   └──main.css
-|   ├── img
-|   |   └──logo.png
-|   ├── js
-|   |   └── generic.js
-|
-├── templates/
-|   ├── base.html
-|   └── home.html
-|
-├── app.py
-├── config.py
-├── db_extention.py
-└── models.py
+├── apprmed.py
+├── Aptfile
+├── Procfile
+├── architect.txt
+├── requirements.txt
+└── runtime.txt
