@@ -38,7 +38,11 @@ def create_app(config_type):
     app.config.from_object(config_type)
 
     db.init_app(app)    
+    # engine = db.engine
+    # engine = create_engine(os.environ.get('DATABASE_URI'))
 
+    # Base.prepare(engine, reflect=True)
+    
     Migrate(app, db)
     bootstrap.init_app(app)
     log_manager.init_app(app)

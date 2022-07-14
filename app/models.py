@@ -3,9 +3,11 @@ from flask import Flask
 # from config import *
 from datetime import *
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
 from app.db_extention import *
 from flask_login import UserMixin
 from sqlalchemy.orm import Session
+import os
 
 
 
@@ -14,13 +16,14 @@ from sqlalchemy.orm import Session
 #########################################
 # BASE DE DONNEES StageM2_BD ############
 #########################################
-app= Flask('__name__')
+engine = create_engine(os.environ.get('DATABASE_URI'))
+# app= Flask('__name__')
 
-app.config.from_object('config.ProductionConfig')
+# app.config.from_object('config.ProductionConfig')
 
-db = SQLAlchemy(app)
+# db = SQLAlchemy(app)
 
-engine = db.engine
+# engine = db.engine
 Base.prepare(engine, reflect=True)
 
 session = Session(engine)

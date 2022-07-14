@@ -108,9 +108,11 @@ def MiseAJour():
         blesse_couche = 'True'==form.blesse_couche.data
         categorie_blesse = form.categorie_blesse.data
         
-        blesseamettreajour = session.query(blesse).filter_by(matricule=matricule).all()[-1] 
+        blesseamettreajour = session.query(blesse).filter_by(matricule=matricule).all() 
         if blesseamettreajour != [] :
-
+            id = [blesse for blesse  in blesseamettreajour]
+            m=max([n.idblesse for n in id])
+            blesseamettreajour = session.query(blesse).filter_by(idblesse=m).first()
             blesseamettreajour.categorieabc = categorie_blesse
             blesseamettreajour.blesse_couche = blesse_couche
             session.add(blesseamettreajour)
