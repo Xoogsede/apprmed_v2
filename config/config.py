@@ -1,7 +1,9 @@
 import os
-uri = os.environ["DATABASE_URL"]  
-if uri and uri.startswith("postgres://"): 
-    uri = uri.replace("postgres://", "postgresql+psycopg2://")
+uri = os.environ["DATABASE_URI"] 
+url = os.environ["DATABASE_URL"] 
+if url and url.startswith("postgres://"): 
+    url = url.replace("postgres://", "postgresql+psycopg2://")
+    uri = url.replace("postgres://", "postgresql://")
 
 
 class Config(object):
@@ -9,8 +11,8 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = os.environ["SECRET_KEY"]
-    SQLALCHEMY_DATABASE_URI = uri # os.environ['DATABASE_URL'].replace('postgres', 'postgresql+psycopg2')
-    # SQLALCHEMY_DATABASE_URL = os.environ['DATABASE_URI']
+    SQLALCHEMY_DATABASE_URI = url # os.environ['DATABASE_URL'].replace('postgres', 'postgresql+psycopg2')
+    SQLALCHEMY_DATABASE_URL = uri # os.environ['DATABASE_URL'].replace['DATABASE_URI']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
 
