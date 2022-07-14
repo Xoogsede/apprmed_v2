@@ -16,7 +16,7 @@ import os
 #########################################
 # BASE DE DONNEES StageM2_BD ############
 #########################################
-engine = create_engine(os.environ['DATABASE_URL'])
+engine = create_engine(os.environ['DATABASE_URI'])
 # app= Flask('__name__')
 
 # app.config.from_object('config.ProductionConfig')
@@ -39,6 +39,7 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
 
     __tablename__ = 'users'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer(), primary_key = True)
     matricule = db.Column(db.String(10), unique = True)
     fonction = db.Column(db.String(100), nullable = False)
