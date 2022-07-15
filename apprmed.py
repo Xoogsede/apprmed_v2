@@ -14,4 +14,5 @@ with app.app_context():
             matricule='1000000000',
             fonction = 'auxiliaire sanitaire',
             mdp='topsecret_')            
-    app.run()
+    port=os.environ.get('PORT',8080)
+    app.run(debug=False, host="0.0.0.0", port=port)
