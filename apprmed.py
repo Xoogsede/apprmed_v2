@@ -15,4 +15,11 @@ with app.app_context():
             fonction = 'auxiliaire sanitaire',
             mdp='topsecret_')            
     port=os.environ.get('PORT',8080)
-    app.run(debug=False, host="0.0.0.0", port=port)
+    try:
+        import socket
+        sock = socket.socket()
+        sock.bind(('', 0))
+        port_dispo = sock.getsockname()[1]
+        port=os.environ.get('PORT',port_dispo)
+    except:
+        app.run(debug=False, host="0.0.0.0", port=port)
