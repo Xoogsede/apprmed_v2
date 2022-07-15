@@ -1,1 +1,1 @@
-web: gunicorn app:apprmed 
+web: gunicorn apprmed:app 
