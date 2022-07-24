@@ -5,18 +5,25 @@
 
 {% macro matricule(name='matricule', value='Matricule', type='text', action="/auxsan/AjouterBlesse") %}
 <script type="text/javascript" src="{{ url_for('static', filename =  'js/qrmatricule.js') }}"></script>
-
+<style>
+  .result{
+    background-color: green;
+    color:#fff;
+    padding:20px;
+  }
+  .row{
+    display:flex;
+  }
+</style>
 <div class="row">
   <div class="col">
     <div style="width:500px;" id="reader"></div>
   </div>
   <div class="col" style="padding:30px;">
+    <!-- <div id="result">Result Here</div> -->
   </div>
 </div>
 
-<script>
-  document.getElementById("time").value= new Date();
-</script>
 <script type="text/javascript">
 function onScanSuccess(qrCodeMessage) {
     document.getElementById("matricule").value=qrCodeMessage
