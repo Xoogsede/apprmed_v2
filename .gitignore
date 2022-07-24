@@ -16,6 +16,9 @@ sql/
 organisation_app/
 donnees_CSV/
 Dockerfile
+package-lock.json
+package.json
+
 
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files

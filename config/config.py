@@ -1,4 +1,6 @@
 import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 uri = os.environ["DATABASE_URI"] 
 url = os.environ["DATABASE_URL"] 
 if url and url.startswith("postgres://"): 
@@ -11,9 +13,10 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = os.environ["SECRET_KEY"]
-    SQLALCHEMY_DATABASE_URI = url # os.environ['DATABASE_URL'].replace('postgres', 'postgresql+psycopg2')
-    SQLALCHEMY_DATABASE_URL = uri # os.environ['DATABASE_URL'].replace['DATABASE_URI']
+    SQLALCHEMY_DATABASE_URI = url 
+    SQLALCHEMY_DATABASE_URL = uri 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    UPLOAD_FOLDER = os.getcwd() + '/app/static/img/'
     
 
 class ProductionConfig(Config):

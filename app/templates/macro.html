@@ -2,8 +2,31 @@
     <input type="text" name="matricule" value="{{ video_reader() }}" />   
 {% endmacro %}
 
+
 {% macro matricule(name='matricule', value='Matricule', type='text', action="/auxsan/AjouterBlesse") %}
-<form method="POST" action="{{ action }}">
-    <a><input type="submit" value="Matricule" name='matricule'></a>    
-  </form>
+<script type="text/javascript" src="{{ url_for('static', filename =  'js/qrmatricule.js') }}"></script>
+
+<div class="row">
+  <div class="col">
+    <div style="width:500px;" id="reader"></div>
+  </div>
+  <div class="col" style="padding:30px;">
+  </div>
+</div>
+
+<script>
+  document.getElementById("time").value= new Date();
+</script>
+<script type="text/javascript">
+function onScanSuccess(qrCodeMessage) {
+    document.getElementById("matricule").value=qrCodeMessage
+    html5QrcodeScanner.clear();
+}
+function onScanError(errorMessage) {
+  //handle scan error
+}
+var html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader", { fps: 10, qrbox: 250 });
+html5QrcodeScanner.render(onScanSuccess, onScanError);
+</script>
 {% endmacro %}

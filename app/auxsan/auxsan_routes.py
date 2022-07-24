@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from app.models import *
 from .formulaire import *
-from app import video_reader
-
 
 auxsan_bp = Blueprint('auxsan', __name__, template_folder='templates')
 
@@ -14,12 +12,7 @@ def AjoutBlesse():
 
     form = AjouterBlesse()     
 
-    if request.method == 'POST':
-        if request.values.get('matricule')=='Matricule':
-            form.matricule.data = video_reader()
-            return render_template('auxsan/AjouterBlesse.html', 
-            form=form, video_reader=video_reader)
-
+    
     if form.validate_on_submit():
         matricule = form.matricule.data
         categorie_blesse = form.categorie_blesse.data
@@ -61,7 +54,7 @@ def AjoutBlesse():
             flash("Blessé '{}' déjà enregistré mais non encore évacué !".format(matricule))
             return redirect(url_for('auxsan.AjoutBlesse'))
 
-    return render_template('auxsan/AjouterBlesse.html', form=form, video_reader=video_reader)
+    return render_template('auxsan/AjouterBlesse.html', form=form)
 
 
 
@@ -97,12 +90,6 @@ def MiseAJour():
     
     form = MiseAJourblesse()
 
-    if request.method == 'POST':
-        if request.values.get('matricule')=='Matricule':
-            form.matricule.data = video_reader()
-            return render_template('auxsan/MiseAJourblesse.html', 
-            form=form, video_reader=video_reader)
-
     if form.validate_on_submit():
         matricule = form.matricule.data
         blesse_couche = 'True'==form.blesse_couche.data
@@ -124,4 +111,4 @@ def MiseAJour():
 
         return redirect(url_for('auxsan.liste_blesses'))
     
-    return render_template('auxsan/MiseAJourblesse.html', form=form, video_reader=video_reader)
+    return render_template('auxsan/MiseAJourblesse.html', form=form)

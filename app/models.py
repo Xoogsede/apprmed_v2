@@ -19,15 +19,7 @@ if uri and uri.startswith("postgres://"):
 # BASE DE DONNEES StageM2_BD ############
 #########################################
 engine = create_engine(uri)
-# app= Flask('__name__')
-
-# app.config.from_object('config.ProductionConfig')
-
-# db = SQLAlchemy(app)
-
-# engine = db.engine
 Base.prepare(engine, reflect=True)
-
 session = Session(engine)
 
 
