@@ -9,9 +9,9 @@ app = create_app('config.ProductionConfig')
 with app.app_context():
     db.create_all()
     from app.models import User
-    if not User.query.filter_by(matricule='1000000000').first():
+    if not User.query.filter_by(matricule='0444879129').first():
         User.create_user(
-            matricule='1000000000',
+            matricule='0444879129',
             fonction = 'auxiliaire sanitaire',
             mdp='topsecret_')            
     port=os.environ.get('PORT',8080)
