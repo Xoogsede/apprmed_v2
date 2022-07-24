@@ -107,7 +107,7 @@ def MiseAJour():
             flash("Le blessé '{}' a été mis à jour avec succès !".format(matricule))
         else:
             flash("'{}' inconnu parmi les blessés, merci de vérifier.".format(matricule))
-            return redirect(url_for('auxsan.MiseAJourblesse'))
+            return redirect(url_for('auxsan.MiseAJour'))
 
         return redirect(url_for('auxsan.liste_blesses'))
     

@@ -1,6 +1,5 @@
 import os
 from flask import Flask
-from flask_migrate import Migrate
 from app.db_extention import *
 
 
@@ -10,10 +9,9 @@ def create_app(config_type):
   
     app.config.from_object(config_type)
 
-    db.init_app(app)    
-   
-    
-    Migrate(app, db)
+    db.init_app(app)
+    migrate.init_app(app, db)
+ 
     bootstrap.init_app(app)
     log_manager.init_app(app)
     bcrypt.init_app(app) 

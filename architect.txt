@@ -82,7 +82,7 @@ AppRmed/
 |   |   ├── img
 |   |   |   └──logo.png
 |   |   └── js
-|   |       └── generic.js
+|   |       └── qrmatricule.js
 |   |
 |   ├── templates/
 |   |   ├── base.html
