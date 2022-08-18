@@ -18,7 +18,7 @@ donnees_CSV/
 Dockerfile
 package-lock.json
 package.json
-
+modelisation.ipynb
 
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files
