@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    <title>Adoption</title>
+    <title>APP RMED</title>
   </head>
   <body>
 
@@ -18,7 +18,7 @@
     <div class="navbar-nav">
       
       {% if current_user.is_authenticated %}
-        <h5>Connecté avec le matricule <b style="color: rgb(7, 146, 7)"> <br> {{ current_user.matricule }}</b> </h5>
+        <h5>Connecté avec le matricule <b style="color: rgb(12, 94, 12)"> <br> {{ current_user.matricule }}</b> </h5>
         <a class="nav-item nav-link" href="{{ url_for('authentication.home') }}">Accuil</a>
         <a class="nav-item nav-link" href="{{ url_for('auxsan.AjoutBlesse') }}">Blessé : militaire français </a>
         <a class="nav-item nav-link" href="{{ url_for('auxsan.liste_blesses') }}">liste des blessés</a>
