@@ -16,7 +16,7 @@ class MiseAJourblesse(FlaskForm):
 
     matricule = StringField(render_kw={"placeholder": "Saisir ou scanner matricule"}, validators=[DataRequired()])
     categorie_blesse = StringField(render_kw={"placeholder": "Nouvelle catégorie"}, validators=[DataRequired()])
-    blesse_couche = RadioField("Blessé couché ?", validators=[DataRequired()], choices=[(True, "Oui"), (False, "Non")], default=(True, "Oui"))
+    blesse_couche = RadioField(label="Blessé couché ?", validators=[DataRequired()], choices=[(True, "Oui"), (False, "Non")])
     Valider = SubmitField('Valider')
 
 class MatriculeQRCode(FlaskForm):
