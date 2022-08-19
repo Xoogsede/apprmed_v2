@@ -19,7 +19,7 @@
       
       {% if current_user.is_authenticated %}
         <h5>Connecté avec le matricule <b style="color: rgb(12, 94, 12)"> <br> {{ current_user.matricule }}</b> </h5>
-        <a class="nav-item nav-link" href="{{ url_for('authentication.home') }}">Accuil</a>
+        <a class="nav-item nav-link" href="{{ url_for('authentication.home') }}">Accueil</a>
         <a class="nav-item nav-link" href="{{ url_for('auxsan.AjoutBlesse') }}">Blessé : militaire français </a>
         <a class="nav-item nav-link" href="{{ url_for('auxsan.liste_blesses') }}">liste des blessés</a>
         <a class="nav-item nav-link" href="{{ url_for('auxsan.MiseAJour') }}">MAJ militaire français</a>
