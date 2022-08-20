@@ -1,6 +1,5 @@
-from tkinter.tix import Select
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, RadioField, TextAreaField, SelectField
+from wtforms import StringField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired
 
 
