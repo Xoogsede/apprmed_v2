@@ -1,6 +1,4 @@
 from flask_wtf import FlaskForm
-from numpy import fromfunction
-from sqlalchemy import Boolean
 from wtforms import StringField, SubmitField, ValidationError, PasswordField, BooleanField
 from wtforms.validators import DataRequired, EqualTo
 from app.models import User
