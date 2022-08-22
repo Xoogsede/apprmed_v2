@@ -19,7 +19,7 @@ Dockerfile
 package-lock.json
 package.json
 modelisation.ipynb
-
+genalgo.ipynb
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files
 __pycache__/

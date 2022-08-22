@@ -15,9 +15,9 @@ class AjouterBlesse(FlaskForm):
 class MiseAJourblesse(FlaskForm):
 
     matricule = StringField(render_kw={"placeholder": "Saisir ou scanner matricule"}, validators=[DataRequired()])
-    categorie_blesse = StringField("Catégorie blessé", render_kw={"placeholder": "Nouvelle catégorie"}, validators=[DataRequired()])
+    categorie_blesse = SelectField("Nouvelle catégorie blessé",  validators=[DataRequired()], choices=[('A', "A"), ('B', "B"), ('C', "C")])
     blesse_couche = SelectField("Blessé couché ?", validators=[DataRequired()], choices=[(True, "Oui"), (False, "Non")])
-    nouvelle_position = StringField("Nouvelle position", render_kw={"placeholder": "Nouvelles coordonnées UTM"}, validators=[DataRequired()])
+    nouvelle_position = StringField("Nouvelle position", render_kw={"placeholder": "Nouvelles coordonnées UTM"})
     Valider = SubmitField('Valider')
 
 class MatriculeQRCode(FlaskForm):
