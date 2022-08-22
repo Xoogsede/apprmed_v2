@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired
 class AjouterBlesse(FlaskForm):   
     
     matricule = StringField(render_kw={"placeholder": "Saisir ou scanner matricule"}, validators=[DataRequired()])
-    categorie_blesse = StringField("Catégorie blessé", render_kw={"placeholder": "Categorie blesse"}, default= "C")
+    categorie_blesse = SelectField("Catégorie blessé",  validators=[DataRequired()], choices=[('A', "A"), ('B', "B"), ('C', "C")])
     coordonnees_UTM_blesse = StringField("Position du blessé", render_kw={"placeholder": "Coordonnées UTM"}, validators=[DataRequired()]) 
     symptomes = TextAreaField(render_kw={"placeholder": "Symptomes"})
     blesse_couche = SelectField("Blessé couché ?", validators=[DataRequired()], choices=[(True, "Oui"), (False, "Non")])
