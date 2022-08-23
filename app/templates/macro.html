@@ -14,12 +14,23 @@
   .row{
     display:flex;
   }
+  .form-group {
+    text-align: left;
+}
+.container {
+    text-align: center;
+}
+
+.reader {
+        position: relative;
+        max-width: 800px; 
+        width: 100%; 
+        overflow: scroll;
+        }
 </style>
-<div class="row">
-  <div class="col">
-    <div style="width:400px;"id="reader"></div>
-  </div>
-  <div class="col" style="padding:30px;">
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div style="reader" id="reader"></div>
   </div>
 </div>
 

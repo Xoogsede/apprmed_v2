@@ -2,6 +2,12 @@ h1 {
     text-align: center;
 }
 
+label {
+    text-align: left;
+}
+.container {
+    text-align: center;
+}
 .table {
 border-spacing: 0;
 margin: 1rem;
@@ -26,10 +32,3 @@ background-color: #f5f6f7;
     padding-right: 100px;
     text-align: left;
     }
-
-    .reader {
-        position: relative;
-        max-width: 600px; 
-        width: 100%; 
-        overflow: scroll;
-        }
