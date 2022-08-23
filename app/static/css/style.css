@@ -27,3 +27,9 @@ background-color: #f5f6f7;
     text-align: left;
     }
 
+    .reader {
+        position: relative;
+        max-width: 600px; 
+        width: 100%; 
+        overflow: scroll;
+        }
