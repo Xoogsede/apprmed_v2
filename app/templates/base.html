@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -18,11 +18,8 @@
     <div class="navbar-nav">
       
       {% if current_user.is_authenticated %}
-        <h5>Connecté avec le matricule <b style="color: rgb(12, 94, 12)"> <br> {{ current_user.matricule }}</b> </h5>
-        <a class="nav-item nav-link" href="{{ url_for('authentication.home') }}">Accueil</a>
-        <a class="nav-item nav-link" href="{{ url_for('auxsan.AjoutBlesse') }}">Blessé : militaire français </a>
-        <a class="nav-item nav-link" href="{{ url_for('auxsan.liste_blesses') }}">liste des blessés</a>
-        <a class="nav-item nav-link" href="{{ url_for('auxsan.MiseAJour') }}">MAJ militaire français</a>
+        <h5><b style="color: rgb(12, 94, 12)"> {{ current_user.matricule }}<br>Connecté </b> </h5>
+        <h2><a class="nav-item nav-link" href="{{ url_for('authentication.home') }}">Accueil</a> </h2>
 
         <a class="nav-item nav-link" href="{{ url_for('authentication.deconnexion') }}" style="color: rgb(109, 7, 38)"><h4>Déconnexion</h4></a>
         {% else %}
