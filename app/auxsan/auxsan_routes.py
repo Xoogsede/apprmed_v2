@@ -99,20 +99,23 @@ def MiseAJour():
         blesse_couche = 'True'==form.blesse_couche.data
         categorie_blesse = form.categorie_blesse.data
         
-        blesseamettreajour = session.query(blesse).filter_by(matricule=matricule).all() 
-        if blesseamettreajour != [] :
-            id = [blesse for blesse  in blesseamettreajour]
-            m=max([n.idblesse for n in id])
-            blesseamettreajour = session.query(blesse).filter_by(idblesse=m).first()
-            blesseamettreajour.categorieabc = categorie_blesse
-            blesseamettreajour.blesse_couche = blesse_couche
-            session.add(blesseamettreajour)
-            session.commit()
-            flash("Le blessé '{}' a été mis à jour avec succès !".format(matricule))
-        else:
-            flash("'{}' inconnu parmi les blessés, merci de vérifier.".format(matricule))
-            return redirect(url_for('auxsan.MiseAJour'))
+        try:
+            blesseamettreajour = session.query(blesse).filter_by(matricule=matricule).all() 
+            if blesseamettreajour != [] :
+                id = [blesse for blesse  in blesseamettreajour]
+                m=max([n.idblesse for n in id])
+                blesseamettreajour = session.query(blesse).filter_by(idblesse=m).first()
+                blesseamettreajour.categorieabc = categorie_blesse
+                blesseamettreajour.blesse_couche = blesse_couche
+                session.add(blesseamettreajour)
+                session.commit()
+                flash("Le blessé '{}' a été mis à jour avec succès !".format(matricule))
+            else:
+                flash("'{}' inconnu parmi les blessés, merci de vérifier.".format(matricule))
+                return redirect(url_for('auxsan.MiseAJour'))
 
-        return redirect(url_for('auxsan.liste_blesses'))
+            return redirect(url_for('auxsan.liste_blesses'))
+        except: 
+            flash("Le blessé '{}' n'est pas encore enregistré, merci de le faire !".format(matricule))
     
     return render_template('auxsan/MiseAJourblesse.html', form=form)
