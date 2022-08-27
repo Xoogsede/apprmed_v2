@@ -22,37 +22,41 @@ def AjoutBlesse():
 
 
         # Controle que le blessé n'est pas déjà enregistrer et qu'il n'est pas évacué.
-        blesse_deja_enregistrer = session.query(blesse).filter_by(matricule=matricule).all()
+        try :
+            blesse_deja_enregistrer = session.query(blesse).filter_by(matricule=matricule).all()
 
-        if blesse_deja_enregistrer == []:
-            session.add(blesse(idblesse=None, matricule= matricule, 
-                                categorieabc = categorie_blesse, 
-                                coordonneesutmblesse=coordonnees_UTM_blesse,
-                                gdhblessure=datetime.now(),gdhevacue= None,
-                                unite_elementaire= None,
-                                numdemande= None, symptomes=symptomes, 
-                                blesse_couche=blesse_couche))                                
-            session.commit()
+            if blesse_deja_enregistrer == []:
+                session.add(blesse(idblesse=None, matricule= matricule, 
+                                    categorieabc = categorie_blesse, 
+                                    coordonneesutmblesse=coordonnees_UTM_blesse,
+                                    gdhblessure=datetime.now(),gdhevacue= None,
+                                    unite_elementaire= None,
+                                    numdemande= None, symptomes=symptomes, 
+                                    blesse_couche=blesse_couche))                                
+                session.commit()
 
-            flash("Blessé '{}' ajouté ! ".format(matricule))
-            return redirect(url_for('auxsan.liste_blesses'))
+                flash("Blessé '{}' ajouté ! ".format(matricule))
+                return redirect(url_for('auxsan.liste_blesses'))
 
-        elif (blesse_deja_enregistrer[-1].gdhevacue is not None):
-            session.add(blesse(idblesse=None, matricule= matricule, 
-                                categorieabc = categorie_blesse, 
-                                coordonneesutmblesse=coordonnees_UTM_blesse,
-                                gdhblessure=datetime.now(),gdhevacue= None,
-                                unite_elementaire= None,
-                                numdemande= None, symptomes=symptomes, 
-                                blesse_couche=blesse_couche))
-            session.commit()
+            elif (blesse_deja_enregistrer[-1].gdhevacue is not None):
+                session.add(blesse(idblesse=None, matricule= matricule, 
+                                    categorieabc = categorie_blesse, 
+                                    coordonneesutmblesse=coordonnees_UTM_blesse,
+                                    gdhblessure=datetime.now(),gdhevacue= None,
+                                    unite_elementaire= None,
+                                    numdemande= None, symptomes=symptomes, 
+                                    blesse_couche=blesse_couche))
+                session.commit()
 
-            flash('Blessé à nouveau ajouté ! ')
-            return redirect(url_for('auxsan.liste_blesses'))
+                flash('Blessé à nouveau ajouté ! ')
+                return redirect(url_for('auxsan.liste_blesses'))
 
-        else:
-            flash("Blessé '{}' déjà enregistré mais non encore évacué !".format(matricule))
-            return redirect(url_for('auxsan.AjoutBlesse'))
+            else:
+                flash("Blessé '{}' déjà enregistré mais non encore évacué !".format(matricule))
+                return redirect(url_for('auxsan.AjoutBlesse'))
+        
+        except:
+            flash("Blessé '{}' n'est pas un militaire français !".format(matricule))
 
     return render_template('auxsan/AjouterBlesse.html', form=form)
 
