@@ -12,7 +12,7 @@ instance/*
 .brouillon.py
 brouillon/
 .importdonnees.sql
-sql/
+optimisation/
 organisation_app/
 donnees_CSV/
 Dockerfile
