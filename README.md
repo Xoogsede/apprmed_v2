@@ -4,7 +4,6 @@ L'application APPRMED permet une gestion globale du soutien sanitaire sur la zon
 Elle est conçue pour gérer les blessés et optimiser les moyens sanitaires (véhicules d'évacuation, lits de soin, 
 stocks stratégiques de produits de santé).
 
-Fonctionnement.
 Elle permet d'identifier rapidement le soldat blessé par simple lecture du matricule numérisé sous forme de QR Code,
 de saisir les informations sur sa position géographique et son état. 
 Ces informations sont directement transmises au poste de commandement soutien médical (PCSM).
