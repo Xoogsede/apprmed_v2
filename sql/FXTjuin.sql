@@ -1,7 +1,10 @@
 
 SELECT effacerdonneessimu();
 
-\COPY salle_soin FROM 'C:\Users\abdi-\Documents\Cours\M2\Stage\Projet stage\Bases de donnees\monapp\donnees_CSV\salle_soin.csv' DELIMITER ',' CSV HEADER;
+\COPY militaire FROM 'F:\Cours\Master\M2\Stage\Projet stage\Bases de donnees\monapp\donnees_CSV\donneesmilitaire2.csv' DELIMITER ',' CSV HEADER;
+\COPY militaire FROM 'C:\Users\abdi-\Documents\M2\AppRmed\donnees_CSV\donneesmilitaire2.csv' DELIMITER ',' CSV HEADER;
+C:\Users\abdi-\Documents\M2\AppRmed\donnees_CSV
+\COPY salle_soin FROM 'C:\Users\abdi-\Documents\M2\AppRmed\donnees_CSV\salle_soin.csv' DELIMITER ',' CSV HEADER;
 UPDATE salle_soin SET typesoin = 'HOS' WHERE idsalle <=80;
 UPDATE salle_soin SET typesoin = 'BO' WHERE idsalle BETWEEN 81 AND 90;
 UPDATE salle_soin SET typesoin = 'REA' WHERE idsalle > 90;

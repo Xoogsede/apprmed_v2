@@ -6,53 +6,53 @@ CREATE OR REPLACE FUNCTION militaire_ajout()
     BEGIN 
         -- Vérification que les champs obligatoires soient complétés
         IF NEW.pays IS NULL THEN
-            RAISE EXCEPTION 'pays ne peut être vide';
+            RAISE EXCEPTION 'pays ne peut etre vide';
         END IF;
         
         IF NEW.nomarmee IS NULL THEN
-            RAISE EXCEPTION 'Armee ne peut être vide';
+            RAISE EXCEPTION 'Armee ne peut etre vide';
         END IF;
 
         IF NEW.nomunite IS NULL THEN
-            RAISE EXCEPTION 'Unité ou régiment ne peut être vide';
+            RAISE EXCEPTION 'Unite ou regiment ne peut etre vide';
         END IF;
         
         IF NEW.div_bri IS NULL THEN
-            RAISE EXCEPTION 'division ou brigade ne peut être vide';
+            RAISE EXCEPTION 'division ou brigade ne peut etre vide';
         END IF;
 
         IF NEW.unite_elementaire IS NULL THEN
-            RAISE EXCEPTION 'Unité élémentaire ne peut être vide';
+            RAISE EXCEPTION 'Unite elementaire ne peut etre vide';
         END IF;
 
         IF NEW.matricule IS NULL THEN
-            RAISE EXCEPTION 'Matricule ne peut être vide';
+            RAISE EXCEPTION 'Matricule ne peut etre vide';
         ELSE
             NEW.matricule := (SELECT LPAD(CAST(NEW.matricule AS varchar), 10, '0'));
         END IF;
 
         IF NEW.nom IS NULL THEN 
-            RAISE EXCEPTION 'Le nom ne peut être vide';
+            RAISE EXCEPTION 'Le nom ne peut etre vide';
         END IF;        
 
         IF NEW.prenom IS NULL THEN
-            RAISE EXCEPTION 'Prénom ne peut être vide';
+            RAISE EXCEPTION 'Prenom ne peut etre vide';
         END IF;
 
         IF NEW.categoriehf IS NULL THEN 
-            RAISE EXCEPTION 'La catégorie homme ou femme ne peut être vide'; 
+            RAISE EXCEPTION 'La categorie homme ou femme ne peut etre vide'; 
         END IF;
 
         IF NEW.date_naissance IS NULL THEN
-            RAISE EXCEPTION 'La date de naissance ne peut être vide';
+            RAISE EXCEPTION 'La date de naissance ne peut etre vide';
         END IF;
 
         IF NEW.lieu_naissance IS NULL THEN
-            RAISE EXCEPTION 'Le lieu de naissance ne peut être vide';
+            RAISE EXCEPTION 'Le lieu de naissance ne peut etre vide';
         END IF;
 
         IF NEW.grade IS NULL THEN
-            RAISE EXCEPTION 'Le grade ne peut être vide';
+            RAISE EXCEPTION 'Le grade ne peut etre vide';
         END IF;
 
         -- Auto remplisage de la categorie de militaire suivant le grade fourni
@@ -73,12 +73,12 @@ CREATE OR REPLACE FUNCTION militaire_ajout()
             VALUES (NEW.codepays, NEW.pays, NEW.nomarmee, NEW.nomunite, NEW.div_bri, NEW.unite_elementaire);
         END IF;
 
-         IF NEW.nomunite NOT IN (SELECT nomunite FROM ONLY unite) THEN
+        IF (NEW.nomunite NOT IN (SELECT UPPER(nomunite) FROM ONLY unite)) THEN
             INSERT INTO unite
             VALUES (NEW.codepays, NEW.pays, NEW.nomarmee, NEW.nomunite, NEW.div_bri);
         END IF;
 
-         IF NEW.div_bri NOT IN (SELECT div_bri FROM ONLY div_bri) THEN
+        IF NEW.div_bri NOT IN (SELECT div_bri FROM ONLY div_bri) THEN
             INSERT INTO div_bri
             VALUES (NEW.codepays, NEW.pays, NEW.nomarmee, NEW.div_bri);
         END IF;
@@ -112,31 +112,31 @@ CREATE OR REPLACE FUNCTION civil_ajout()
 
         -- Vérification que les champs obligatoires soient complétés    
         IF NEW.nom IS NULL THEN 
-            RAISE EXCEPTION 'Le nom ne peut être vide';
+            RAISE EXCEPTION 'Le nom ne peut etre vide';
         END IF;        
 
         IF NEW.prenom IS NULL THEN
-            RAISE EXCEPTION 'Prénom ne peut être vide';
+            RAISE EXCEPTION 'Prenom ne peut etre vide';
         END IF;
 
         IF NEW.categoriehf IS NULL THEN 
-            RAISE EXCEPTION 'La catégorie homme ou femme ne peut être vide'; 
+            RAISE EXCEPTION 'La categorie homme ou femme ne peut etre vide'; 
         END IF;
 
         IF NEW.date_naissance IS NULL THEN
-            RAISE EXCEPTION 'La date de naissance ne peut être vide';
+            RAISE EXCEPTION 'La date de naissance ne peut etre vide';
         END IF;
 
         IF NEW.lieu_naissance IS NULL THEN
-            RAISE EXCEPTION 'Le lieu de naissance ne peut être vide';
+            RAISE EXCEPTION 'Le lieu de naissance ne peut etre vide';
         END IF;
 
         IF NEW.pays IS NULL THEN
-            RAISE EXCEPTION 'pays ne peut être vide';
+            RAISE EXCEPTION 'pays ne peut etre vide';
         END IF;
 
         IF NEW.adresse IS NULL THEN
-            NEW.adresse := 'Adresse non renseignée. ';
+            NEW.adresse := 'Adresse non renseignee. ';
         END IF;
 
         -- Verification que le civil ne soit pas deja enregiste dans la base de donnee
@@ -144,7 +144,7 @@ CREATE OR REPLACE FUNCTION civil_ajout()
         FROM civil 
         WHERE nom=NEW.nom AND prenom=New.prenom AND date_naissance=NEW.date_naissance AND lieu_naissance=NEW.lieu_naissance))
         THEN 
-            RAISE EXCEPTION 'Civil déjà enregistré';
+            RAISE EXCEPTION 'Civil dejà enregistre';
         END IF;
 
         -- affectation d'un numero de matricule commencant par 1 000 000 000
@@ -175,15 +175,15 @@ CREATE OR REPLACE FUNCTION ajout_blesse()
         -- Vérification que les champs obligatoires soient complétés
     
         IF NEW.matricule IS NULL THEN
-            RAISE EXCEPTION 'Le matricule ne doit pas être vide';
+            RAISE EXCEPTION 'Le matricule ne doit pas etre vide';
         END IF;
 
         IF NEW.categorieabc IS NULL THEN
-            RAISE EXCEPTION 'La catégorie blessé ne pas être vide';
+            RAISE EXCEPTION 'La categorie blesse ne pas etre vide';
         END IF;
 
         IF NEW.coordonneesutmblesse IS NULL THEN
-            RAISE EXCEPTION 'Les coordonnées UTM du blessé ne peuvent être vide';
+            RAISE EXCEPTION 'Les coordonnees UTM du blesse ne peuvent etre vide';
         END IF;
 
         IF NEW.gdhblessure IS NULL THEN
@@ -261,11 +261,11 @@ CREATE OR REPLACE FUNCTION ajout_demandevasan()
 
         -- Vérification que les champs obligatoires soient complétés    
         IF NEW.unite_elementaire IS NULL THEN
-            RAISE EXCEPTION 'Unite élémentaire ne peut être vide';
+            RAISE EXCEPTION 'Unite elementaire ne peut etre vide';
         END IF;
 
         IF NEW.coordonneutm IS NULL THEN
-            RAISE EXCEPTION 'Les coordonnées UTM de ramassage ne peuvent être vides';
+            RAISE EXCEPTION 'Les coordonnees UTM de ramassage ne peuvent etre vides';
         END IF;
 
         IF NEW.numdemande IS NULL THEN
@@ -389,19 +389,19 @@ CREATE OR REPLACE FUNCTION vecteur_transport_ajout()
 
         -- Vérification que les champs obligatoires soient complétés
         IF NEW.idtypevt IS NULL THEN
-            RAISE EXCEPTION 'Identifiant type de vecteur transport ne peut être vide';
+            RAISE EXCEPTION 'Identifiant type de vecteur transport ne peut etre vide';
         END IF;
         
         IF NEW.idcat IS NULL THEN
-            RAISE EXCEPTION 'Identifiant categorie vecteur transport ne peut être vide';
+            RAISE EXCEPTION 'Identifiant categorie vecteur transport ne peut etre vide';
         END IF;
 
         IF NEW.idcapacite IS NULL THEN
-            RAISE EXCEPTION 'Identifiant de la capacité d''évacution ne peut être vide';
+            RAISE EXCEPTION 'Identifiant de la capacite d''evacution ne peut etre vide';
         END IF;
         
         IF NEW.idvt IS NULL THEN
-            RAISE EXCEPTION 'L''identifiant du vecteur transport ne peut être vide';
+            RAISE EXCEPTION 'L''identifiant du vecteur transport ne peut etre vide';
         END IF;
 
         -- Insertion des donnees dans les tableau parents 
