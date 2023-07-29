@@ -18,7 +18,7 @@ dominate==2.6.0
 entrypoints @ file:///C:/ci/entrypoints_1649926676279/work
 executing @ file:///opt/conda/conda-bld/executing_1646925071911/work
 filelock==3.6.0
-Flask==2.1.2
+Flask==2.2.5
 Flask-Bcrypt @ file:///C:/b/abs_05welhnsvz/croot/flask-bcrypt_1669799294229/work
 Flask-Bootstrap==3.3.7.1
 Flask-Login==0.6.1
