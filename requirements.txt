@@ -1,5 +1,4 @@
 alembic==1.8.1
-asttokens @ file:///opt/conda/conda-bld/asttokens_1646925590279/work
 backcall @ file:///home/ktietz/src/ci/backcall_1611930011877/work
 bcrypt==3.2.2
 certifi @ file:///C:/b/abs_85o_6fm0se/croot/certifi_1671487778835/work/certifi
