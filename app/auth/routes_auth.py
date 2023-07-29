@@ -3,6 +3,8 @@ from app.auth.forms import LoginForm, RegistrationForm
 from flask_login import login_user, login_required, logout_user, current_user
 from app.auth import authentication as at
 from app.models import User, militaire, session
+from flask import jsonify
+
 
 
 @at.route('/')
@@ -11,7 +13,6 @@ def home():
 
 @at.route('/register', methods=['GET', 'POST'])
 def register_user():
-    
     form = RegistrationForm()
 
     if current_user.is_authenticated:
@@ -20,22 +21,19 @@ def register_user():
 
     if form.validate_on_submit():
         matricule = form.matricule.data
-        nouveau_inscrit = session.query(militaire).filter_by(matricule=matricule).all()
-        deja_inscrit = User.query.filter_by(matricule=matricule).all()
+        user = User.query.filter_by(matricule=matricule).first()
+        militaire_existant = session.query(militaire).filter_by(matricule=matricule).first()
         
-        if nouveau_inscrit != [] and deja_inscrit == []:
-            User.create_user(
-                matricule = form.matricule.data, 
-                fonction = form.fonction.data, 
-                mdp = form.mdp.data)
-
-            flash("Merci de vous être enregistrer")
+        if militaire_existant and user and user.check_password(form.old_password.data):
+            user.change_password(form.new_password.data)
+            session.commit()
+            flash("Votre mot de passe a été changé avec succès !")
             return redirect(url_for('authentication.login'))
         else:
-            flash("Le matricule '{}' n'appartient pas à l'armée française, vous n'êtes pas autoriser à vous enregistrer.".format(form.matricule.data))
+            flash("Matricule non valide ou mot de passe incorrect. Veuillez réessayer.")
         
+    return render_template('auth/registration.html', form=form)
 
-    return render_template('auth/registration.html', form = form)
 
 @at.route('/bienvenue')
 @login_required
@@ -89,6 +87,21 @@ def login():
             flash("Matricule '{}' n'est pas autoriser à se connecter.".format(form.matricule.data))
 
     return render_template('auth/login.html', form=form)
+
+@at.route('/login_mobile', methods=['POST'])
+def login_mobile():
+    data = request.get_json()
+
+    matricule = data.get('matricule')
+    password = data.get('password')
+
+    user = User.query.filter_by(matricule=matricule).first()
+
+    if user and user.check_password(password):
+        return jsonify({'status': 'success', 'matricule': user.matricule, 'fonction': user.fonction}), 200
+
+    return jsonify({'status': 'error', 'message': 'Matricule ou mot de passe incorrect'}), 400
+
 
 @at.app_errorhandler(404)
 def page_non_trouvee(error):

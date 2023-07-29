@@ -76,6 +76,7 @@ class User(db.Model, UserMixin):
     mdp_hash = db.Column(db.String(128), nullable = False)
     dateinscription = db.Column(db.DateTime, default=datetime.now) 
 
+
     # Méthode pour vérifier si un mot de passe entré correspond au mot de passe hashé stocké dans la base de données
     def check_password(self, mdp):
         return cph(self.mdp_hash, mdp)
@@ -93,6 +94,10 @@ class User(db.Model, UserMixin):
         db.session.commit()
         return user
 
+    # Méthode pour changer le mot de passe d'un utilisateur
+    def change_password(self, new_password):
+        self.mdp_hash = gph(new_password)
+        db.session.commit()
 
 
 
