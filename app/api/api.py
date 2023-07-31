@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
-from app.models import User
+from app.models import User, civil, blesse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.db_extention import session
-from app.models import civil
+import datetime
+
 
 api = Blueprint('api', __name__)
 
@@ -98,3 +99,29 @@ def add_civil():
     session.commit()  # Valide la transaction
 
     return jsonify({'status': 'success', 'message': 'Civil ajouté avec succès'}), 201  # Renvoie un message de succès
+
+
+@api.route('/SC', methods=['POST'])
+@jwt_required()
+def receive_data():
+    data = request.get_json()  # Récupère les données envoyées avec la requête POST
+    
+    matricule = data.get('matricule')
+    coordonnees = data.get('coordonnees')
+    etatBlesse = data.get('etatBlesse')
+    
+    blesse = blesse.query.filter_by(matricule=matricule).first()  # Récupère l'entrée de la base de données associée à ce matricule
+
+    if blesse:
+        # Si l'entrée existe déjà, mettez à jour les coordonnées et l'état du blessé
+        blesse.coordonneesutmblesse = coordonnees
+        blesse.blesse_couche = etatBlesse
+    else:
+        # Si l'entrée n'existe pas, créez-en une nouvelle
+        blesse = blesse(matricule=matricule, coordonneesutmblesse=coordonnees, blesse_couche=etatBlesse, 
+        categorieabc="A", gdhblessure=datetime.now())  # 'A' et datetime.now() sont des valeurs par défaut
+        session.add(blesse)
+    
+    session.commit()  # Valide la transaction
+
+    return jsonify({'status': 'success', 'message': 'Données reçues et enregistrées avec succès'}), 200  # Renvoie un message de succès
