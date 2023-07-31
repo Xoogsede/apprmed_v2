@@ -15,9 +15,12 @@ ce qui signifie que toutes les routes définies dans ce blueprint seront préfix
 
 Enfin, la fonction retourne l'application Flask créée.
 '''
+
 import os
-from flask import Flask
+from flask import Flask, jsonify, request
+from flask_jwt_extended import JWTManager, create_access_token
 from app.db_extention import *
+from app.models import User  # assurez-vous que cet import est correct
 
 def create_app(config_type):
     """
@@ -31,6 +34,31 @@ def create_app(config_type):
   
     # Chargement des configurations
     app.config.from_object(config_type)
+
+    # Configure application to store JWTs securely
+    app.config['JWT_SECRET_KEY'] = 'Secret_teporaire$'  # Change this!
+
+    jwt = JWTManager(app)
+
+    @app.route('/login_mobile', methods=['POST'])
+    def login_mobile():
+        data = request.get_json()
+
+        matricule = data.get('matricule')
+        password = data.get('password')
+
+        user = User.query.filter_by(matricule=matricule).first()
+
+        if user and user.check_password(password):
+            if not user.is_password_changed:
+                return jsonify({'status': 'error', 'message': 'Veuillez changer votre mot de passe initial'}), 401
+            
+            # Create the tokens
+            access_token = create_access_token(identity=matricule)
+            
+            return jsonify({'status': 'success', 'matricule': user.matricule, 'fonction': user.fonction, 'token': access_token}), 200
+
+        return jsonify({'status': 'error', 'message': 'Matricule ou mot de passe incorrect'}), 400
 
     # Initialisation de SQLAlchemy
     db.init_app(app)

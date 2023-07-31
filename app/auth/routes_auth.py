@@ -3,6 +3,7 @@ from app.auth.forms import LoginForm, RegistrationForm
 from flask_login import login_user, login_required, logout_user, current_user
 from app.auth import authentication as at
 from app.models import User, militaire, session
+from flask_jwt_extended import create_access_token
 from flask import jsonify
 
 
@@ -88,6 +89,7 @@ def login():
 
     return render_template('auth/login.html', form=form)
 
+
 @at.route('/login_mobile', methods=['POST'])
 def login_mobile():
     data = request.get_json()
@@ -98,9 +100,16 @@ def login_mobile():
     user = User.query.filter_by(matricule=matricule).first()
 
     if user and user.check_password(password):
-        return jsonify({'status': 'success', 'matricule': user.matricule, 'fonction': user.fonction}), 200
+        if not user.is_password_changed:
+            return jsonify({'status': 'error', 'message': 'Veuillez changer votre mot de passe initial'}), 401
+        
+        # create a token and send it back
+        token = create_access_token(identity=matricule)
+        return jsonify({'status': 'success', 'matricule': user.matricule, 'fonction': user.fonction, 'role': user.role, 'token': token}), 200
 
     return jsonify({'status': 'error', 'message': 'Matricule ou mot de passe incorrect'}), 400
+
+
 
 
 @at.app_errorhandler(404)
