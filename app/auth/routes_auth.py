@@ -101,9 +101,10 @@ def login_mobile():
 
     if user and user.check_password(password):
         token = create_access_token(identity=matricule)  # create a token and send it back
-        return jsonify({'status': 'success', 'message': user.is_password_changed, 'matricule': user.matricule, 'fonction': user.fonction, 'token': token}), 200
+        return jsonify({'status': 'success', 'message': str(user.is_password_changed), 'matricule': user.matricule, 'fonction': user.fonction, 'token': token}), 200
 
     return jsonify({'status': 'error', 'message': 'Matricule ou mot de passe incorrect'}), 400
+
 
 
 @at.route('/change_password', methods=['POST'])
