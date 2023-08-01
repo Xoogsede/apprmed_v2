@@ -104,6 +104,7 @@ def login_mobile():
         # if not user.is_password_changed:
         #     return jsonify({'status': 'success', 'message': 'change', 'matricule': user.matricule, 'fonction': user.fonction, 'change_password': True, 'token': token}), 200
         message = str(user.is_password_changed)
+        print(message)
         return jsonify({'status': 'success', 'message': message, 'matricule': user.matricule, 'fonction': user.fonction, 'token': token}), 200
 
     return jsonify({'status': 'error', 'message': 'Matricule ou mot de passe incorrect'}), 400
