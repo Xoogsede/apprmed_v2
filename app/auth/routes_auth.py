@@ -3,7 +3,7 @@ from app.auth.forms import LoginForm, RegistrationForm
 from flask_login import login_user, login_required, logout_user, current_user
 from app.auth import authentication as at
 from app.models import User, militaire, session
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 from flask import jsonify
 
 
@@ -101,7 +101,7 @@ def login_mobile():
 
     if user and user.check_password(password):
         if not user.is_password_changed:
-            return jsonify({'status': 'error', 'message': 'Veuillez changer votre mot de passe initial'}), 401
+            return jsonify({'status': 'success', 'message': 'Veuillez changer votre mot de passe initial', 'matricule': user.matricule, 'fonction': user.fonction, 'role': user.role, 'change_password': True}), 200
         
         # create a token and send it back
         token = create_access_token(identity=matricule)
@@ -109,6 +109,23 @@ def login_mobile():
 
     return jsonify({'status': 'error', 'message': 'Matricule ou mot de passe incorrect'}), 400
 
+
+@at.route('/change_password', methods=['POST'])
+@jwt_required()
+def change_password():
+    data = request.get_json()  # Récupère les données envoyées avec la requête POST
+    
+    matricule = get_jwt_identity()  # Récupère le matricule de l'utilisateur actuellement connecté
+    user = User.query.filter_by(matricule=matricule).first()  # Récupère l'utilisateur associé à ce matricule
+
+    if user and user.check_password(data['old_password']):
+        user.set_password(data['new_password'])  # Change le mot de passe de l'utilisateur
+        user.is_password_changed = True  # Marque le mot de passe comme ayant été changé
+        session.commit()  # Valide la transaction
+
+        return jsonify({'status': 'success', 'message': 'Mot de passe changé avec succès'}), 200  # Renvoie un message de succès
+
+    return jsonify({'status': 'error', 'message': 'Ancien mot de passe incorrect'}), 400  # Renvoie un message d'erreur
 
 
 

@@ -32,45 +32,25 @@ def get_user_pages():
 
 
 
-@api.route('/change_password_mobile', methods=['POST'])
-@jwt_required()
-def change_password_mobile():
-    data = request.get_json()  # Récupère les données envoyées avec la requête POST
+# @api.route('/change_password_mobile', methods=['POST'])
+# @jwt_required()
+# def change_password_mobile():
+#     data = request.get_json()  # Récupère les données envoyées avec la requête POST
     
-    matricule = data.get('matricule')
-    new_password = data.get('new_password')
+#     matricule = data.get('matricule')
+#     new_password = data.get('new_password')
     
-    user = User.query.filter_by(matricule=matricule).first()  # Récupère l'utilisateur associé à ce matricule
+#     user = User.query.filter_by(matricule=matricule).first()  # Récupère l'utilisateur associé à ce matricule
 
-    if user:
-        user.set_password(new_password)  # Change le mot de passe de l'utilisateur
-        user.is_password_changed = True  # Marque le mot de passe comme ayant été changé
-        session.commit()  # Valide la transaction
+#     if user:
+#         user.set_password(new_password)  # Change le mot de passe de l'utilisateur
+#         user.is_password_changed = True  # Marque le mot de passe comme ayant été changé
+#         session.commit()  # Valide la transaction
 
-        return jsonify({'status': 'success', 'message': 'Mot de passe changé avec succès'}), 200  # Renvoie un message de succès
+#         return jsonify({'status': 'success', 'message': 'Mot de passe changé avec succès'}), 200  # Renvoie un message de succès
 
-    return jsonify({'status': 'error', 'message': 'Utilisateur non trouvé'}), 404  # Renvoie un message d'erreur
+#     return jsonify({'status': 'error', 'message': 'Utilisateur non trouvé'}), 404  # Renvoie un message d'erreur
 
-
-
-
-
-@api.route('/change_password', methods=['POST'])
-@jwt_required()
-def change_password():
-    data = request.get_json()  # Récupère les données envoyées avec la requête POST
-    
-    matricule = get_jwt_identity()  # Récupère le matricule de l'utilisateur actuellement connecté
-    user = User.query.filter_by(matricule=matricule).first()  # Récupère l'utilisateur associé à ce matricule
-
-    if user and user.check_password(data['old_password']):
-        user.set_password(data['new_password'])  # Change le mot de passe de l'utilisateur
-        user.is_password_changed = True  # Marque le mot de passe comme ayant été changé
-        session.commit()  # Valide la transaction
-
-        return jsonify({'status': 'success', 'message': 'Mot de passe changé avec succès'}), 200  # Renvoie un message de succès
-
-    return jsonify({'status': 'error', 'message': 'Ancien mot de passe incorrect'}), 400  # Renvoie un message d'erreur
 
 
 
