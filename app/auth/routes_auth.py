@@ -100,12 +100,11 @@ def login_mobile():
     user = User.query.filter_by(matricule=matricule).first()
 
     if user and user.check_password(password):
+        token = create_access_token(identity=matricule)  # create a token and send it back
         if not user.is_password_changed:
-            return jsonify({'status': 'success', 'message': 'Veuillez changer votre mot de passe initial', 'matricule': user.matricule, 'fonction': user.fonction, 'role': user.role, 'change_password': True}), 200
+            return jsonify({'status': 'success', 'message': 'Veuillez changer votre mot de passe initial', 'matricule': user.matricule, 'fonction': user.fonction, 'change_password': True, 'token': token}), 200
         
-        # create a token and send it back
-        token = create_access_token(identity=matricule)
-        return jsonify({'status': 'success', 'matricule': user.matricule, 'fonction': user.fonction, 'role': user.role, 'token': token}), 200
+        return jsonify({'status': 'success', 'matricule': user.matricule, 'fonction': user.fonction, 'token': token}), 200
 
     return jsonify({'status': 'error', 'message': 'Matricule ou mot de passe incorrect'}), 400
 
