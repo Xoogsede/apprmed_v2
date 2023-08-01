@@ -16,12 +16,12 @@ def get_user_pages():
     if user:
         # définir les pages accessibles pour chaque fonction
         pages_by_function = {
-            'SC': ['auxsan'],
-            'EVASAN': ['auxsan','transport'],
-            'CMA': ['auxsan', 'litsoin', 'magasin'],
-            'PC': ['auxsan', 'litsoin', 'magasin', 'pc', 'transport'],
-            'GMA': [ 'magasin'],
-            'ADMIN': ['auxsan', 'litsoin', 'magasin', 'pc', 'transport'],
+            'SC': ['SC'],
+            'EVASAN': ['SC','transport'],
+            'CMA': ['SC', 'litsoin', 'magasin'],
+            'PC': ['SC', 'litsoin', 'magasin', 'pc', 'transport'],
+            'GMA': ['magasin'],
+            'ADMIN': ['SC', 'litsoin', 'magasin', 'pc', 'transport'],
             # ajouter ici d'autres fonctions et leurs pages accessibles
         }
         
