@@ -81,7 +81,7 @@ def create_app(config_type):
     app.register_blueprint(authentication)
     
     from app.api import api
-    app.register_blueprint(api, url_prefix='/api')
+    app.register_blueprint(api)
     # Retour de l'application Flask
     return app
 
