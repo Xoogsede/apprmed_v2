@@ -1,6 +1,6 @@
-# app/api/__init__.py
-# from flask import Blueprint
-# api = Blueprint('api', __name__)
+from multiprocessing import AuthenticationError
+from flask import Blueprint
 
 
-# from app.api import api
+api = Blueprint('api', __name__)
+from app.api import api

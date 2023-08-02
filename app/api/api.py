@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify
 from app.models import User, civil, blesse
+from app.api import api
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.db_extention import session
 import datetime
 
 
-api = Blueprint('api', __name__)
+
 
 @api.route('/user_pages', methods=['GET'])
 @jwt_required()
