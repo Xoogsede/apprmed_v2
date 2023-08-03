@@ -25,7 +25,7 @@ def AjoutBlesse():
         try :
             blesse_deja_enregistrer = session.query(blesse).filter_by(matricule=matricule).all()
 
-            if blesse_deja_enregistrer == []:
+            if not blesse_deja_enregistrer :
                 session.add(blesse(idblesse=None, matricule= matricule, 
                                     categorieabc = categorie_blesse, 
                                     coordonneesutmblesse=coordonnees_UTM_blesse,

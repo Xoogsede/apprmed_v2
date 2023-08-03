@@ -4,7 +4,7 @@ from app.db_extention import db  # importe l'extension de base de données
 import os  # importe le module os pour récupérer les variables d'environnement
 
 # Crée l'application en utilisant la configuration de production
-app = create_app('config.ProductionConfig')
+app = create_app('config.DevelopmentConfig')
 
 # Crée un contexte d'application
 with app.app_context():

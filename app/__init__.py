@@ -40,26 +40,6 @@ def create_app(config_type):
 
     jwt = JWTManager(app)
 
-    # @app.route('/login_mobile', methods=['POST'])
-    # def login_mobile():
-    #     data = request.get_json()
-
-    #     matricule = data.get('matricule')
-    #     password = data.get('password')
-
-    #     user = User.query.filter_by(matricule=matricule).first()
-
-    #     if user and user.check_password(password):
-    #         if not user.is_password_changed:
-    #             return jsonify({'status': 'error', 'message': 'Veuillez changer votre mot de passe initial'}), 401
-            
-    #         # Create the tokens
-    #         access_token = create_access_token(identity=matricule)
-            
-    #         return jsonify({'status': 'success', 'matricule': user.matricule, 'fonction': user.fonction, 'token': access_token}), 200
-
-    #     return jsonify({'status': 'error', 'message': 'Matricule ou mot de passe incorrect'}), 400
-
     # Initialisation de SQLAlchemy
     db.init_app(app)
     # Initialisation de Migrate
@@ -80,7 +60,7 @@ def create_app(config_type):
     from app.auth import authentication
     app.register_blueprint(authentication)
     
-    from app.api import api
+    from app.api.api import api
     app.register_blueprint(api, url_prefix='/api')
     # Retour de l'application Flask
     return app
