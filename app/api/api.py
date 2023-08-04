@@ -138,7 +138,7 @@ def receive_data():
             session.commit()
             return jsonify({'status': 'succès', 'message': 'Blessé ajouté avec succès'}), 200
         else:
-            return jsonify({'status': 'erreur', 'message': 'Blessé déjà enregistré et non encore évacué', 'deja_present':1}), 400
+            return jsonify({'status': 'erreur', 'message': 'Blessé déjà enregistré et non encore évacué', 'deja_present':1}), 201
     except Exception as e:
         return jsonify({'status': 'erreur', 'message': f"Erreur lors de l'ajout du blessé : {str(e)}"}), 400
 
