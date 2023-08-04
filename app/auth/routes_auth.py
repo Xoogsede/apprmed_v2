@@ -118,7 +118,7 @@ def change_password():
     matricule = get_jwt_identity()  # Récupère le matricule de l'utilisateur actuellement connecté
     user = User.query.filter_by(matricule=matricule).first()  # Récupère l'utilisateur associé à ce matricule
 
-    if user and user.check_password(data['old_password']):
+    if user :
         user.set_password(data['new_password'])  # Change le mot de passe de l'utilisateur
         user.is_password_changed = True  # Marque le mot de passe comme ayant été changé
         session.commit()  # Valide la transaction
