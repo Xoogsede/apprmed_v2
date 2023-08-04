@@ -110,7 +110,7 @@ def receive_data():
     etatBlesse = eval(data.get('etatBlesse'))
     gdhblessure = data.get('gdhblessure')  # Récupérer l'heure de la blessure à partir des données
 
-    if not all([matricule, coordonnees, etatBlesse, gdhblessure]):
+    if not all([matricule, coordonnees, str(etatBlesse), gdhblessure]):
         return jsonify({'status': 'erreur', 'message': 'Données manquantes'}), 400
 
     # Convertir l'heure de la blessure en un objet datetime
