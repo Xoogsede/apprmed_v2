@@ -107,7 +107,7 @@ def receive_data():
 
     matricule = data.get('matricule')
     coordonnees = data.get('coordonnees')
-    etatBlesse = data.get('etatBlesse')
+    etatBlesse = eval(data.get('etatBlesse'))
     gdhblessure = data.get('gdhblessure')  # Récupérer l'heure de la blessure à partir des données
 
     if not all([matricule, coordonnees, etatBlesse, gdhblessure]):
