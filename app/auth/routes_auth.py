@@ -119,11 +119,11 @@ def change_password():
     user = User.query.filter_by(matricule=matricule).first()  # Récupère l'utilisateur associé à ce matricule
 
     if user :
-        user.set_password(data['new_password'])  # Change le mot de passe de l'utilisateur
-        user.is_password_changed = True  # Marque le mot de passe comme ayant été changé
+        user.change_password(data['new_password'])  # Change le mot de passe de l'utilisateur
+        # user.is_password_changed = True  # Marque le mot de passe comme ayant été changé
         session.commit()  # Valide la transaction
 
-        return jsonify({'status': 'success', 'message': 'Mot de passe changé avec succès'}), 200  # Renvoie un message de succès
+        return jsonify({'status': 'success', 'message': f'Mot de passe changé avec succès ({str(user.is_password_changed)})'}), 200  # Renvoie un message de succès
 
     return jsonify({'status': 'error', 'message': 'Ancien mot de passe incorrect'}), 400  # Renvoie un message d'erreur
 
