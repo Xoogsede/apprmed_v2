@@ -3,7 +3,7 @@ from app.models import User, civil, blesse, session,militaire
 # from app.api import api
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import datetime
-
+from app.api.functions import latlon_to_utm, utm_to_latlon
 from flask import Blueprint
 
 
@@ -32,6 +32,7 @@ def get_user_pages():
     # définir les pages accessibles pour chaque fonction
     pages_by_function = {
         'SC': ['sc'],
+        'DEMANDEUR':['sc', 'demandeur'],
         'EVASAN': ['sc','transport'],
         'CMA': ['sc', 'litsoin', 'magasin'],
         'PC': ['sc', 'litsoin', 'magasin', 'pc', 'transport'],
@@ -44,25 +45,11 @@ def get_user_pages():
     return jsonify({'status': 'success', 'pages': user_pages}), 200
 
 
-# @api.route('/change_password_mobile', methods=['POST'])
-# @jwt_required()
-# def change_password_mobile():
-#     data = request.get_json()  # Récupère les données envoyées avec la requête POST
-    
-#     matricule = data.get('matricule')
-#     new_password = data.get('new_password')
-    
-#     user = User.query.filter_by(matricule=matricule).first()  # Récupère l'utilisateur associé à ce matricule
-
-#     if user:
-#         user.set_password(new_password)  # Change le mot de passe de l'utilisateur
-#         user.is_password_changed = True  # Marque le mot de passe comme ayant été changé
-#         session.commit()  # Valide la transaction
-
-#         return jsonify({'status': 'success', 'message': 'Mot de passe changé avec succès'}), 200  # Renvoie un message de succès
-
-#     return jsonify({'status': 'error', 'message': 'Utilisateur non trouvé'}), 404  # Renvoie un message d'erreur
-
+@api.route('/demandeur', methods=['POST'])
+@jwt_required()
+def demandevasan():
+    data = request.get_json()  # Récupère les données envoyées avec la requête POST
+    return jsonify({'status': 'succès', 'message': f'Blessés ajouté avec succès {data["data"]}'}), 200
 
 
 
@@ -93,6 +80,7 @@ def add_civil():
     return jsonify({'status': 'success', 'message': 'Civil ajouté avec succès'}), 201  # Renvoie un message de succès
 
 
+
 from datetime import datetime
 
 from datetime import datetime
@@ -105,11 +93,15 @@ def receive_data():
     if data is None:
         return jsonify({'status': 'erreur', 'message': 'Données JSON invalides'}), 400
 
-    matricule = data.get('matricule')
-    coordonnees = data.get('coordonnees')
+    matricule = data.get('matricule')    
     etatBlesse = eval(data.get('etatBlesse'))
     gdhblessure = data.get('gdhblessure')  # Récupérer l'heure de la blessure à partir des données
 
+    try:
+        coordonnees = latlon_to_utm(data.get('coordonnees'))
+    except:
+        coordonnees = data.get('coordonnees')
+        
     if not all([matricule, coordonnees, str(etatBlesse), gdhblessure]):
         return jsonify({'status': 'erreur', 'message': 'Données manquantes'}), 400
 
@@ -141,43 +133,5 @@ def receive_data():
             return jsonify({'status': 'erreur', 'message': 'Blessé déjà enregistré et non encore évacué', 'deja_present':1}), 201
     except Exception as e:
         return jsonify({'status': 'erreur', 'message': f"Erreur lors de l'ajout du blessé : {str(e)}"}), 400
-
-...
-
-# @api.route('/sc', methods=['POST'])
-# @jwt_required()
-# def receive_data():
-#     data = request.get_json()  # Récupère les données envoyées avec la requête POST
-    
-#     if data is None:
-#         return jsonify({'status': 'error', 'message': 'Invalid JSON data'}), 400
-
-#     matricule = data.get('matricule')
-#     coordonnees = data.get('coordonnees')
-#     etatBlesse = data.get('etatBlesse')
-#     gdhblessure = data.get('gdhblessure')  # Get the injury time from the data
-
-#     nouveau_blesse = blesse.query.filter_by(matricule=matricule).first()  # Récupère l'entrée de la base de données associée à ce matricule
-
-#     if nouveau_blesse:
-#         # Si l'entrée existe déjà, mettez à jour les coordonnées et l'état du blessé
-#         nouveau_blesse.coordonneesutmblesse = coordonnees
-#         nouveau_blesse.blesse_couche = etatBlesse
-#     else:
-#         # Convert the injury time to a datetime object
-#         gdhblessure_datetime = datetime.strptime(gdhblessure, '%Y-%m-%d %H:%M:%S')
-#         # Si l'entrée n'existe pas, créez-en une nouvelle
-#         nouveau_blesse = blesse(
-#             matricule=matricule,
-#             coordonneesutmblesse=coordonnees,
-#             blesse_couche=etatBlesse,
-#             categorieabc="A",
-#             gdhblessure=gdhblessure_datetime  # Use the injury time when creating a new entry
-#         )
-#         session.add(blesse)
-    
-#     session.commit()  # Valide la transaction
-
-#     return jsonify({'status': 'success', 'message': 'Données reçues et enregistrées avec succès'}), 200  # Renvoie un message de succès
 
 

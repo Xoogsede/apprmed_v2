@@ -19,11 +19,11 @@ with app.app_context():
         # Si l'utilisateur n'existe pas, crée un nouvel utilisateur avec les données spécifiées
         User.create_user(
             matricule='0444879129',
-            fonction = 'auxiliaire sanitaire',
+            fonction='auxiliaire sanitaire',
             mdp='topsecret_')
 
 # Récupère le port de l'environnement ou utilise le port 8080 par défaut
-port = os.environ.get('PORT', 8080)
+port = int(os.environ.get('PORT', 8080))
 
 # Essaye de trouver un port libre
 try:
@@ -38,7 +38,9 @@ try:
     port_dispo = sock.getsockname()[1]
 
     # Utilise le port libre comme port de l'application, sauf si un port est spécifié dans l'environnement
-    port = os.environ.get('PORT', port_dispo)
+    port = int(os.environ.get('PORT', port_dispo))
 except:
-    # Si une erreur se produit, exécute l'application avec le port spécifié
-    app.run(debug=False, host="0.0.0.0", port=port)
+    pass
+
+# Exécute l'application Flask avec le port spécifié
+app.run(debug=True, host="0.0.0.0", port=port)

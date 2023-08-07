@@ -1,5 +1,5 @@
-# from flask import Blueprint
+from flask import Blueprint
+api = Blueprint('api', __name__, template_folder='templates')
 
 
-# api = Blueprint('api', __name__)
 from app.api import api
