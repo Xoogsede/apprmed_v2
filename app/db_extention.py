@@ -21,6 +21,8 @@ from sqlalchemy.orm import Session
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_bcrypt import Bcrypt
+from sqlalchemy import func
+
 
 # Initialisation de SQLAlchemy
 db = SQLAlchemy()

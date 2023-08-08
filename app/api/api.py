@@ -49,6 +49,54 @@ def get_user_pages():
 @jwt_required()
 def demandevasan():
     data = request.get_json()  # Récupère les données envoyées avec la requête POST
+    
+    data = request.get_json()  # Récupère les données envoyées avec la requête POST
+    
+    if data is None:
+        return jsonify({'status': 'erreur', 'message': 'Données JSON invalides'}), 400
+
+    matricule = data.get('matricule')    
+    etatBlesse = eval(data.get('etatBlesse'))
+    gdhblessure = data.get('gdhblessure')  # Récupérer l'heure de la blessure à partir des données
+
+    try:
+        coordonnees = latlon_to_utm(data.get('coordonnees'))
+    except:
+        coordonnees = data.get('coordonnees')
+        
+    if not all([matricule, coordonnees, str(etatBlesse), gdhblessure]):
+        return jsonify({'status': 'erreur', 'message': 'Données manquantes'}), 400
+
+    # Convertir l'heure de la blessure en un objet datetime
+    gdhblessure_datetime = datetime.fromisoformat(gdhblessure)
+
+    # Vérifier si la personne blessée est déjà enregistrée et non évacuée.
+    try:
+        blesse_deja_enregistrer = session.query(blesse).filter_by(matricule=matricule).all()
+
+        if not blesse_deja_enregistrer or blesse_deja_enregistrer[-1].gdhevacue is not None:
+            # Si l'entrée n'existe pas ou si la personne blessée a été évacuée, créer une nouvelle entrée
+            nouveau_blesse = blesse(
+                idblesse=None, 
+                matricule=matricule,
+                coordonneesutmblesse=coordonnees,
+                blesse_couche=etatBlesse,
+                categorieabc="A",  # Valeur par défaut
+                gdhblessure=gdhblessure_datetime,
+                gdhevacue=None,  # Valeur par défaut
+                unite_elementaire=None,  # Valeur par défaut
+                numdemande=None,  # Valeur par défaut
+                symptomes=None,  # Valeur par défaut
+            )
+            session.add(nouveau_blesse)
+            session.commit()
+            return jsonify({'status': 'succès', 'message': 'Blessé ajouté avec succès'}), 200
+        else:
+            return jsonify({'status': 'erreur', 'message': 'Blessé déjà enregistré et non encore évacué', 'deja_present':1}), 201
+    except Exception as e:
+        return jsonify({'status': 'erreur', 'message': f"Erreur lors de l'ajout du blessé : {str(e)}"}), 400
+
+    
     return jsonify({'status': 'succès', 'message': f'Blessés ajouté avec succès {data["data"]}'}), 200
 
 

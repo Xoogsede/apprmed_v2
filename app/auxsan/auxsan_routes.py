@@ -1,6 +1,11 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from app.models import *
 from .formulaire import *
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output
+import plotly.express as px
 
 auxsan_bp = Blueprint('auxsan', __name__, template_folder='templates')
 
@@ -100,7 +105,7 @@ def MiseAJour():
         categorie_blesse = form.categorie_blesse.data
         
         blesseamettreajour = session.query(blesse).filter_by(matricule=matricule).all() 
-        if blesseamettreajour != [] :
+        if blesseamettreajour :
             id = [blesse for blesse  in blesseamettreajour]
             m=max([n.idblesse for n in id])
             blesseamettreajour = session.query(blesse).filter_by(idblesse=m).first()
