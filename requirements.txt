@@ -27,7 +27,6 @@ Mako==1.2.1
 MarkupSafe==2.1.1
 networkx==2.8.8
 numpy==1.23.5
-osmnx==1.5.1
 platformdirs==2.5.2
 plotly==5.15.0
 psycopg2-binary==2.9.3

@@ -20,7 +20,7 @@ import os
 from flask import Flask, jsonify, request
 from flask_jwt_extended import JWTManager, create_access_token
 from app.db_extention import *
-from app.optimisation_v1 import *
+from brouillon.optimisation_v1 import *
 from app.models import User, blesse, session  # assurez-vous que cet import est correct
 import dash
 import dash_core_components as dcc
@@ -139,56 +139,56 @@ def create_dashboard(server):
     blesses_df['longitude'] = coordinates['longitude'].astype(float)
 
 
-    # # Créer un tracé de carte avec les coordonnées
-    # map_fig = px.scatter_geo(blesses_df,
-    #                          lat='latitude',
-    #                          lon='longitude',
-    #                          title='Position des blessés',
-    #                          projection='natural earth')
+    # Créer un tracé de carte avec les coordonnées
+    map_fig = px.scatter_geo(blesses_df,
+                             lat='latitude',
+                             lon='longitude',
+                             title='Position des blessés',
+                             projection='natural earth')
 
-    # # Disposition du tableau de bord avec la carte au centre
-    # dash_app.layout = html.Div([
-    #     html.Div([
-    #         dcc.Graph(figure=fig1),
-    #         dcc.Graph(figure=fig2),
-    #         dcc.Graph(figure=fig3),
-    #     ], style={'width': '30%', 'display': 'inline-block'}),
-
-    #     html.Div([
-    #         dcc.Graph(figure=map_fig),
-    #     ], style={'width': '40%', 'display': 'inline-block'}),
-
-    #     html.Div([
-    #         dcc.Graph(figure=fig4),
-    #         dcc.Graph(figure=fig5),
-    #         dcc.Graph(figure=fig6),
-    #     ], style={'width': '30%', 'display': 'inline-block'}),
-    # ])
-
-
-    # Créer la carte avec Folium
-    carte = afficher_carte(optimal_routes, ambulance_nodes, patient_nodes, patient_urgence_etat, hospital_nodes, ambulance_patients, hospital_patients)
-
-    # Enregistrer la carte dans un fichier HTML
-    carte.save('map.html')
-
-    # Disposition du tableau de bord
+    # Disposition du tableau de bord avec la carte au centre
     dash_app.layout = html.Div([
-        html.H1('Situation Soutien Médical', style={'textAlign': 'center', 'margin-bottom': '20px'}),
-        
         html.Div([
             dcc.Graph(figure=fig1),
+            dcc.Graph(figure=fig2),
+            dcc.Graph(figure=fig3),
         ], style={'width': '20%', 'display': 'inline-block'}),
 
         html.Div([
-            # Intégrer la carte à partir du fichier HTML
-            html.Iframe(id='map', srcDoc=open('map.html', 'r').read(), width='100%', height='500px')
+            dcc.Graph(figure=map_fig),
         ], style={'width': '60%', 'display': 'inline-block'}),
 
         html.Div([
-            dcc.Graph(figure=fig2),
+            dcc.Graph(figure=fig4),
+            dcc.Graph(figure=fig5),
+            dcc.Graph(figure=fig6),
         ], style={'width': '20%', 'display': 'inline-block'}),
     ])
+
+
+    # Créer la carte avec Folium
+    # carte = afficher_carte(optimal_routes, ambulance_nodes, patient_nodes, patient_urgence_etat, hospital_nodes, ambulance_patients, hospital_patients)
+
+    # # Enregistrer la carte dans un fichier HTML
+    # carte.save('map.html')
+
+    # # Disposition du tableau de bord
+    # dash_app.layout = html.Div([
+    #     html.H1('Situation Soutien Médical', style={'textAlign': 'center', 'margin-bottom': '20px'}),
+
+    #     html.Div([
+    #         dcc.Graph(figure=fig1),
+    #     ], style={'width': '20%', 'display': 'inline-block'}),
+
+    #     html.Div([
+    #         # Intégrer la carte à partir du fichier HTML
+    #         html.Iframe(id='map', srcDoc=open('map.html', 'r').read(), width='100%', height='500px')
+    #     ], style={'width': '60%', 'display': 'inline-block'}),
+
+    #     html.Div([
+    #         dcc.Graph(figure=fig2),
+    #     ], style={'width': '20%', 'display': 'inline-block'}),
+    # ])
 
     return dash_app
 
