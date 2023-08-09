@@ -23,8 +23,8 @@ from app.db_extention import *
 # from brouillon.optimisation_v1 import *
 from app.models import User, blesse, session  # assurez-vous que cet import est correct
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 import plotly.express as px
 import pandas as pd
 
