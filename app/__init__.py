@@ -20,7 +20,7 @@ import os
 from flask import Flask, jsonify, request
 from flask_jwt_extended import JWTManager, create_access_token
 from app.db_extention import *
-from brouillon.optimisation_v1 import *
+# from brouillon.optimisation_v1 import *
 from app.models import User, blesse, session  # assurez-vous que cet import est correct
 import dash
 import dash_core_components as dcc
@@ -148,10 +148,12 @@ def create_dashboard(server):
 
     # Disposition du tableau de bord avec la carte au centre
     dash_app.layout = html.Div([
+        html.H1('Situation Soutien Médical', style={'textAlign': 'center', 'margin-bottom': '20px'}),
+
         html.Div([
             dcc.Graph(figure=fig1),
-            dcc.Graph(figure=fig2),
-            dcc.Graph(figure=fig3),
+            # dcc.Graph(figure=fig2),
+            # dcc.Graph(figure=fig3),
         ], style={'width': '20%', 'display': 'inline-block'}),
 
         html.Div([
@@ -159,9 +161,9 @@ def create_dashboard(server):
         ], style={'width': '60%', 'display': 'inline-block'}),
 
         html.Div([
-            dcc.Graph(figure=fig4),
-            dcc.Graph(figure=fig5),
-            dcc.Graph(figure=fig6),
+            dcc.Graph(figure=fig2),
+            # dcc.Graph(figure=fig5),
+            # dcc.Graph(figure=fig6),
         ], style={'width': '20%', 'display': 'inline-block'}),
     ])
 
