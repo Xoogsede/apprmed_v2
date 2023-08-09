@@ -4,7 +4,7 @@ from app.db_extention import db  # importe l'extension de base de données
 import os  # importe le module os pour récupérer les variables d'environnement
 
 # Crée l'application en utilisant la configuration de production
-app = create_app('config.ProductionConfig')
+app = create_app('config.DevelopmentConfig')
 
 # Crée un contexte d'application
 with app.app_context():
@@ -39,8 +39,7 @@ try:
 
     # Utilise le port libre comme port de l'application, sauf si un port est spécifié dans l'environnement
     port = int(os.environ.get('PORT', port_dispo))
-    app.run(debug=False, host="0.0.0.0", port=port)
 except:
     # Si une erreur se produit, exécute l'application avec le port spécifié
-    app.run(debug=False, host="0.0.0.0", port=port)
+    app.run(debug=True, host="0.0.0.0", port=port)
 
