@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from app.models import *
 from .formulaire import *
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
+import dash as dcc
+from dash import html
 from dash.dependencies import Input, Output
 import plotly.express as px
 

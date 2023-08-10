@@ -1,10 +1,11 @@
 from flask import Blueprint, request, jsonify
-from app.models import User, civil, blesse, session,militaire
+from app.models import User, civil, blesse, session,militaire, demandevasan
 # from app.api import api
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import datetime
 from app.api.functions import latlon_to_utm, utm_to_latlon
 from flask import Blueprint
+from datetime import datetime
 
 
 api = Blueprint('api', __name__)
@@ -47,57 +48,48 @@ def get_user_pages():
 
 @api.route('/demandeur', methods=['POST'])
 @jwt_required()
-def demandevasan():
-    data = request.get_json()  # Récupère les données envoyées avec la requête POST
-    
-    data = request.get_json()  # Récupère les données envoyées avec la requête POST
-    
-    if data is None:
-        return jsonify({'status': 'erreur', 'message': 'Données JSON invalides'}), 400
+def fonction_demandevasan():
+    sender_matricule = get_jwt_identity()
+            
+    # Trouver l'unité élémentaire en utilisant le matricule de l'expéditeur
+    sender_unit = session.query(militaire).filter_by(matricule=sender_matricule).first()
+    unite_elementaire = sender_unit.unite_elementaire if sender_unit else None
+    unite_elementaire
 
-    matricule = data.get('matricule')    
-    etatBlesse = eval(data.get('etatBlesse'))
-    gdhblessure = data.get('gdhblessure')  # Récupérer l'heure de la blessure à partir des données
+    if not unite_elementaire:
+        return jsonify(message="Unité élémentaire non trouvée"), 400
 
-    try:
-        coordonnees = latlon_to_utm(data.get('coordonnees'))
-    except:
-        coordonnees = data.get('coordonnees')
+    data = request.get_json()
+    print(data)
+    print([c.name for c in demandevasan.__table__.columns])
+
+    # Insérer les données dans la table blesse
+    for blesse_data in data['data']:
         
-    if not all([matricule, coordonnees, str(etatBlesse), gdhblessure]):
-        return jsonify({'status': 'erreur', 'message': 'Données manquantes'}), 400
+        session.add(blesse(matricule=blesse_data['matricule'],
+        categorieabc='A',
+        coordonneesutmblesse=blesse_data['localisation'],
+        gdhblessure=datetime.strptime(blesse_data['gdhblessure'], '%Y-%m-%d %H:%M:%S'),
+        unite_elementaire=unite_elementaire, 
+        blesse_couche=blesse_data['etatblesse']==2))
 
-    # Convertir l'heure de la blessure en un objet datetime
-    gdhblessure_datetime = datetime.fromisoformat(gdhblessure)
+        # Insérer les données dans la table demandevasan
+    
+    new_demandevasan = session.add(demandevasan(
+        unite_elementaire=unite_elementaire,
+        coordonneutm=data['data'][0]['localisation'],
+        nblessea=len([patient['etatblesse'] for patient in data['data'] if patient['etatblesse'] == 2]),
+        nblesseb=len([patient['etatblesse'] for patient in data['data'] if patient['etatblesse'] == 1]),
+        nblessec=0,
+        gdhdemande=datetime.strptime(data['gdhdemandevasan'], '%Y-%m-%d %H:%M:%S').time()
+    ))
 
-    # Vérifier si la personne blessée est déjà enregistrée et non évacuée.
-    try:
-        blesse_deja_enregistrer = session.query(blesse).filter_by(matricule=matricule).all()
+    # Ajouter l'instance à la session
+    session.commit()
 
-        if not blesse_deja_enregistrer or blesse_deja_enregistrer[-1].gdhevacue is not None:
-            # Si l'entrée n'existe pas ou si la personne blessée a été évacuée, créer une nouvelle entrée
-            nouveau_blesse = blesse(
-                idblesse=None, 
-                matricule=matricule,
-                coordonneesutmblesse=coordonnees,
-                blesse_couche=etatBlesse,
-                categorieabc="A",  # Valeur par défaut
-                gdhblessure=gdhblessure_datetime,
-                gdhevacue=None,  # Valeur par défaut
-                unite_elementaire=None,  # Valeur par défaut
-                numdemande=None,  # Valeur par défaut
-                symptomes=None,  # Valeur par défaut
-            )
-            session.add(nouveau_blesse)
-            session.commit()
-            return jsonify({'status': 'succès', 'message': 'Blessé ajouté avec succès'}), 200
-        else:
-            return jsonify({'status': 'erreur', 'message': 'Blessé déjà enregistré et non encore évacué', 'deja_present':1}), 201
-    except Exception as e:
-        return jsonify({'status': 'erreur', 'message': f"Erreur lors de l'ajout du blessé : {str(e)}"}), 400
 
     
-    return jsonify({'status': 'succès', 'message': f'Blessés ajouté avec succès {data["data"]}'}), 200
+    return jsonify({'status': 'succès', 'message': f'Blessés de l\'unité {unite_elementaire} ajoutés avec succès'}), 200
 
 
 
