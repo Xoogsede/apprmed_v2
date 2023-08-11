@@ -60,32 +60,34 @@ def fonction_demandevasan():
         return jsonify(message="Unité élémentaire non trouvée"), 400
 
     data = request.get_json()
-    print(data)
-    print([c.name for c in demandevasan.__table__.columns])
+    try:
 
-    # Insérer les données dans la table blesse
-    for blesse_data in data['data']:
+        # Insérer les données dans la table blesse
+        for blesse_data in data['data']:
+            
+            session.add(blesse(matricule=blesse_data['matricule'],
+            categorieabc='A',
+            coordonneesutmblesse=blesse_data['localisation'],
+            gdhblessure=datetime.strptime(blesse_data['gdhblessure'], '%Y-%m-%d %H:%M:%S'),
+            unite_elementaire=unite_elementaire, 
+            blesse_couche=blesse_data['etatblesse']==2))
+
+            # Insérer les données dans la table demandevasan
         
-        session.add(blesse(matricule=blesse_data['matricule'],
-        categorieabc='A',
-        coordonneesutmblesse=blesse_data['localisation'],
-        gdhblessure=datetime.strptime(blesse_data['gdhblessure'], '%Y-%m-%d %H:%M:%S'),
-        unite_elementaire=unite_elementaire, 
-        blesse_couche=blesse_data['etatblesse']==2))
+        new_demandevasan = session.add(demandevasan(
+            unite_elementaire=unite_elementaire,
+            coordonneutm=data['data'][0]['localisation'],
+            nblessea=len([patient['etatblesse'] for patient in data['data'] if patient['etatblesse'] == 2]),
+            nblesseb=len([patient['etatblesse'] for patient in data['data'] if patient['etatblesse'] == 1]),
+            nblessec=0,
+            gdhdemande=datetime.strptime(data['gdhdemandevasan'], '%Y-%m-%d %H:%M:%S').time()
+        ))
 
-        # Insérer les données dans la table demandevasan
-    
-    new_demandevasan = session.add(demandevasan(
-        unite_elementaire=unite_elementaire,
-        coordonneutm=data['data'][0]['localisation'],
-        nblessea=len([patient['etatblesse'] for patient in data['data'] if patient['etatblesse'] == 2]),
-        nblesseb=len([patient['etatblesse'] for patient in data['data'] if patient['etatblesse'] == 1]),
-        nblessec=0,
-        gdhdemande=datetime.strptime(data['gdhdemandevasan'], '%Y-%m-%d %H:%M:%S').time()
-    ))
-
-    # Ajouter l'instance à la session
-    session.commit()
+        # Ajouter l'instance à la session
+        session.commit()
+    except Exception as e:
+        session.rollback()
+        return jsonify({'status': 'erreur', 'message': f"Erreur lors de la demande d'EVASAN : {str(e)}"}), 400
 
 
     
