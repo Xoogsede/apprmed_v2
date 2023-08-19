@@ -3,19 +3,35 @@ from pyproj import Proj
 # api = Blueprint('api', __name__)
 
 def latlon_to_utm(lat_lon):
-    lat, lon = map(float, lat_lon.split('-'))
-    # Calculate the UTM zone number
-    zone_number = int((lon + 180) / 6) + 1
-    
-    # Define the Proj UTM coordinate system
-    utm_proj = Proj(proj='utm', zone=zone_number, ellps='WGS84', preserve_units=False)
-    
-    # Convert lat/lon to UTM coordinates
-    utm_easting, utm_northing = utm_proj(lon, lat)
-    
-    # Determine the UTM zone letter
-    zone_letter = 'CDEFGHJKLMNPQRSTUVWXX'[int((lat + 80) / 8)]
-    
+    try:
+        lat, lon = map(float, lat_lon.split('-'))
+        # Calculate the UTM zone number
+        zone_number = int((lon + 180) / 6) + 1
+
+        # Define the Proj UTM coordinate system
+        utm_proj = Proj(proj='utm', zone=zone_number, ellps='WGS84', preserve_units=False)
+
+        # Convert lat/lon to UTM coordinates
+        utm_easting, utm_northing = utm_proj(lon, lat)
+
+        # Determine the UTM zone letter
+        zone_letter = 'CDEFGHJKLMNPQRSTUVWXX'[int((lat + 80) / 8)]
+    except:
+        try:
+            lat, lon = map(float, lat_lon.replace('(','').replace(')', '').split(','))
+            # Calculate the UTM zone number
+            zone_number = int((lon + 180) / 6) + 1
+            
+            # Define the Proj UTM coordinate system
+            utm_proj = Proj(proj='utm', zone=zone_number, ellps='WGS84', preserve_units=False)
+            
+            # Convert lat/lon to UTM coordinates
+            utm_easting, utm_northing = utm_proj(lon, lat)
+            
+            # Determine the UTM zone letter
+            zone_letter = 'CDEFGHJKLMNPQRSTUVWXX'[int((lat + 80) / 8)]
+        except :
+            print(NameError)
     return f"{zone_number}{zone_letter} {utm_easting:.3f} {utm_northing:.3f}"
 
 

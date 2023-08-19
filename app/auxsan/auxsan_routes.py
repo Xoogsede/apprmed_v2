@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from app.models import *
 from .formulaire import *
+from app.api.functions import *
 import dash
 import dash as dcc
 from dash import html
@@ -84,7 +85,7 @@ def liste_blesses():
         else: 
             evac = b.gdhevacue
         data.append((b.idblesse, b.matricule, b.categorieabc, 
-                    b.coordonneesutmblesse, b.gdhblessure.strftime("%d%H%M %b %Y"), 
+                    latlon_to_utm(b.coordonneesutmblesse), b.gdhblessure.strftime("%d%H%M %b %Y"), 
                     evac, b.unite_elementaire, b.blesse_couche))
 
     return render_template('auxsan/liste_blesses.html', headings=headings, data=data) 
