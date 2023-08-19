@@ -13,7 +13,7 @@ instance/*
 brouillon/
 runtime.txt
 .importdonnees.sql
-.vs
+.vs/
 optimisation/
 organisation_app/
 donnees_CSV/
