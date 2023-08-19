@@ -11,7 +11,9 @@ instance/*
 .brouillon.sql
 .brouillon.py
 brouillon/
+runtime.txt
 .importdonnees.sql
+.vs
 optimisation/
 organisation_app/
 donnees_CSV/

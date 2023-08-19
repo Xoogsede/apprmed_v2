@@ -3,7 +3,8 @@ AppRmed/
 ├── app/
 |   ├── api/
 |   |   ├── __init__.py
-|   |   └── api.py
+|   |   ├── api.py 
+|   |   └── functions.py
 |   |
 |   ├── auth/
 |   |   ├── templates/
@@ -108,5 +109,4 @@ AppRmed/
 ├── Aptfile
 ├── Procfile
 ├── architect.txt
-├── requirements.txt
-└── runtime.txt
+└── requirements.txt
