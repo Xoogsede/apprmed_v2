@@ -150,17 +150,6 @@ def create_dashboard(server):
                              projection='natural earth')
 
     # Disposition du tableau de bord avec la carte au centre
-    # Mise à jour du titre et de la hauteur de la carte
-    map_fig.update_layout(
-        title={
-            'text': 'Position des blessés',
-            'y':0.9,
-            'x':0.5,
-            'xanchor': 'center',
-            'yanchor': 'top'
-        },
-        height=1000  # ajustez cette valeur selon vos besoins
-    )
     # Suppression du titre de l'axe des x pour les deux figures
     fig1.update_layout(xaxis_title=None)
     fig2.update_layout(xaxis_title=None)
@@ -172,7 +161,7 @@ def create_dashboard(server):
             'x':0.5,
             'xanchor': 'center',
             'yanchor': 'top',
-            'font': {'size': 16, 'color': 'black', 'family': 'Arial-Bold'}
+            'font': {'size': 20, 'color': 'black', 'family': 'Arial-Bold'}
         },
         yaxis_title="Nombre")
 
@@ -183,7 +172,7 @@ def create_dashboard(server):
             'x':0.5,
             'xanchor': 'center',
             'yanchor': 'top',
-            'font': {'size': 16, 'color': 'black', 'family': 'Arial-Bold'}
+            'font': {'size': 20, 'color': 'black', 'family': 'Arial-Bold'}
         }, 
         yaxis_title="Nombre")
 
@@ -195,32 +184,42 @@ def create_dashboard(server):
             'x':0.5,
             'xanchor': 'center',
             'yanchor': 'top',
-            'font': {'size': 16, 'color': 'black', 'family': 'Arial-Bold'}
-        })
+            'font': {'size': 20, 'color': 'black', 'family': 'Arial-Bold'}
+        }, 
+        autosize=True
+        )
 
 
     dash_app.layout = html.Div([
         html.H1('Situation Soutien Médical', style={'textAlign': 'center', 'margin-bottom': '20px'}),
 
+        # Conteneur global
         html.Div([
 
-            # Graphique à gauche (fig1)
+            # Colonne des graphiques
             html.Div([
-                dcc.Graph(figure=fig1),
-            ], style={'width': '20%', 'flex': '0 0 auto'}),
+                
+                # Graphique 1
+                html.Div([
+                    dcc.Graph(figure=fig1),
+                ], style={'width': '100%', 'flex': '0 0 auto'}),
+                
+                # Graphique 2
+                html.Div([
+                    dcc.Graph(figure=fig2),
+                ], style={'width': '100%', 'flex': '0 0 auto'}),
 
-            # Carte au centre
-            html.Div([
-                dcc.Graph(figure=map_fig),
-            ], style={'width': '60%', 'flex': '0 0 auto'}),
+            ], style={'display': 'flex', 'flex-direction': 'column', 'width': '10%'}),
 
-            # Graphique à droite (fig2)
+            # Colonne de la carte
             html.Div([
-                dcc.Graph(figure=fig2),
-            ], style={'width': '20%', 'flex': '0 0 auto'}),
+                dcc.Graph(figure=map_fig, style={'height': '100%'}),
+            ], style={'width': '90%', 'height': '100vh'}),
+ 
 
         ], style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center', 'width': '100%'}),
     ])
+
 
 
 
