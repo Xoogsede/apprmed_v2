@@ -72,6 +72,9 @@ def create_app(config_type):
     
     from app.api.api import api
     app.register_blueprint(api, url_prefix='/api')
+
+    from app.pc.dashboard import tbdebord
+    app.register_blueprint(tbdebord,  url_prefix='/pc')
     # Retour de l'application Flask
     return app
 
@@ -80,7 +83,7 @@ def create_app(config_type):
 
 def create_dashboard(server):
     # ... (Le code pour obtenir les données et créer les autres graphes reste le même)
-    dash_app = dash.Dash(server=server, routes_pathname_prefix='/dashboard/')
+    dash_app = dash.Dash(server=server, routes_pathname_prefix='/dashboardash/')
     
     # Requêtes pour obtenir les données nécessaires
     with server.app_context():
@@ -103,17 +106,17 @@ def create_dashboard(server):
     # fig6 = px.bar(x=["Moyenne par unité"], y=[moyenne_blesses_unite], title='Nombre moyen de blessés par unité élémentaire')
 
     # Créer des figures avec 3 barres chacune
-    fig1 = px.bar(x=["En attente d'évacuation", "Évacués aujourd'hui", "Évacués en tout"],
+    fig1 = px.bar(x=["En attente", "Du jour", "Total"],
               y=[blesses_attente, blesses_evacues_aujourdhui, blesses_evacues_total])
     fig1.update_layout(
         title={
-            'text': 'Statistiques des blessés',
+            'text': 'Evacuation',
             'y':0.9,
             'x':0.5,
             'xanchor': 'center',
             'yanchor': 'top'})
 
-    fig2 = px.bar(x=["Blessés couchés", "Unités impactées", "Moyenne par unité"],
+    fig2 = px.bar(x=["Blessés couchés", "Nombre d'unités impactées", "Moyenne blessés par unité"],
                 y=[blesses_couche, unite_impactee, moyenne_blesses_unite])
     fig2.update_layout(
         title={
@@ -147,50 +150,79 @@ def create_dashboard(server):
                              projection='natural earth')
 
     # Disposition du tableau de bord avec la carte au centre
+    # Mise à jour du titre et de la hauteur de la carte
+    map_fig.update_layout(
+        title={
+            'text': 'Position des blessés',
+            'y':0.9,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'
+        },
+        height=1000  # ajustez cette valeur selon vos besoins
+    )
+    # Suppression du titre de l'axe des x pour les deux figures
+    fig1.update_layout(xaxis_title=None)
+    fig2.update_layout(xaxis_title=None)
+
+    fig1.update_layout(
+        title={
+            'text': 'Evacuation',
+            'y':0.95,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 16, 'color': 'black', 'family': 'Arial-Bold'}
+        },
+        yaxis_title="Nombre")
+
+    fig2.update_layout(
+        title={
+            'text': 'Statistiques supplémentaires',
+            'y':0.95,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 16, 'color': 'black', 'family': 'Arial-Bold'}
+        }, 
+        yaxis_title="Nombre")
+
+
+    map_fig.update_layout(
+        title={
+            'text': 'Position des blessés',
+            'y':0.9,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 16, 'color': 'black', 'family': 'Arial-Bold'}
+        })
+
+
     dash_app.layout = html.Div([
         html.H1('Situation Soutien Médical', style={'textAlign': 'center', 'margin-bottom': '20px'}),
 
         html.Div([
-            dcc.Graph(figure=fig1),
-            # dcc.Graph(figure=fig2),
-            # dcc.Graph(figure=fig3),
-        ], style={'width': '20%', 'display': 'inline-block'}),
 
-        html.Div([
-            dcc.Graph(figure=map_fig),
-        ], style={'width': '60%', 'display': 'inline-block'}),
+            # Graphique à gauche (fig1)
+            html.Div([
+                dcc.Graph(figure=fig1),
+            ], style={'width': '20%', 'flex': '0 0 auto'}),
 
-        html.Div([
-            dcc.Graph(figure=fig2),
-            # dcc.Graph(figure=fig5),
-            # dcc.Graph(figure=fig6),
-        ], style={'width': '20%', 'display': 'inline-block'}),
+            # Carte au centre
+            html.Div([
+                dcc.Graph(figure=map_fig),
+            ], style={'width': '60%', 'flex': '0 0 auto'}),
+
+            # Graphique à droite (fig2)
+            html.Div([
+                dcc.Graph(figure=fig2),
+            ], style={'width': '20%', 'flex': '0 0 auto'}),
+
+        ], style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center', 'width': '100%'}),
     ])
 
 
-    # Créer la carte avec Folium
-    # carte = afficher_carte(optimal_routes, ambulance_nodes, patient_nodes, patient_urgence_etat, hospital_nodes, ambulance_patients, hospital_patients)
-
-    # # Enregistrer la carte dans un fichier HTML
-    # carte.save('map.html')
-
-    # # Disposition du tableau de bord
-    # dash_app.layout = html.Div([
-    #     html.H1('Situation Soutien Médical', style={'textAlign': 'center', 'margin-bottom': '20px'}),
-
-    #     html.Div([
-    #         dcc.Graph(figure=fig1),
-    #     ], style={'width': '20%', 'display': 'inline-block'}),
-
-    #     html.Div([
-    #         # Intégrer la carte à partir du fichier HTML
-    #         html.Iframe(id='map', srcDoc=open('map.html', 'r').read(), width='100%', height='500px')
-    #     ], style={'width': '60%', 'display': 'inline-block'}),
-
-    #     html.Div([
-    #         dcc.Graph(figure=fig2),
-    #     ], style={'width': '20%', 'display': 'inline-block'}),
-    # ])
 
     return dash_app
 
