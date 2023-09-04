@@ -4,7 +4,10 @@ from pyproj import Proj
 
 def latlon_to_utm(lat_lon):
     try:
-        lat, lon = map(float, lat_lon.split('-'))
+        try:
+            lat, lon = map(float, lat_lon.split('-'))
+        except:
+            lat, lon = map(float, lat_lon)
         # Calculate the UTM zone number
         zone_number = int((lon + 180) / 6) + 1
 

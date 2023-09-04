@@ -67,7 +67,7 @@ def fonction_demandevasan():
             
             session.add(blesse(matricule=blesse_data['matricule'],
             categorieabc='A',
-            coordonneesutmblesse=blesse_data['localisation'],
+            coordonneesutmblesse=latlon_to_utm(blesse_data['localisation']),
             gdhblessure=datetime.strptime(blesse_data['gdhblessure'], '%Y-%m-%d %H:%M:%S'),
             unite_elementaire=unite_elementaire, 
             blesse_couche=blesse_data['etatblesse']==2))
@@ -76,7 +76,7 @@ def fonction_demandevasan():
         
         new_demandevasan = session.add(demandevasan(
             unite_elementaire=unite_elementaire,
-            coordonneutm=data['data'][0]['localisation'],
+            coordonneutm=latlon_to_utm(data['data'][0]['localisation']),
             nblessea=len([patient['etatblesse'] for patient in data['data'] if patient['etatblesse'] == 2]),
             nblesseb=len([patient['etatblesse'] for patient in data['data'] if patient['etatblesse'] == 1]),
             nblessec=0,
@@ -112,7 +112,7 @@ def add_civil():
         city=data['city'],
         country=data['country'],
         nationality=data['nationality'],
-        localisation=data['localisation'],
+        localisation=latlon_to_utm(data['localisation']),
         etat=data['etat']
     )
 
