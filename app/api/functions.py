@@ -19,6 +19,8 @@ def latlon_to_utm(lat_lon):
 
         # Determine the UTM zone letter
         zone_letter = 'CDEFGHJKLMNPQRSTUVWXX'[int((lat + 80) / 8)]
+
+        return f"{zone_number}{zone_letter} {utm_easting:.3f} {utm_northing:.3f}"
     except:
         try:
             lat, lon = map(float, lat_lon.replace('(','').replace(')', '').split(','))
@@ -33,9 +35,10 @@ def latlon_to_utm(lat_lon):
             
             # Determine the UTM zone letter
             zone_letter = 'CDEFGHJKLMNPQRSTUVWXX'[int((lat + 80) / 8)]
+            return f"{zone_number}{zone_letter} {utm_easting:.3f} {utm_northing:.3f}"
         except :
             print(NameError)
-    return f"{zone_number}{zone_letter} {utm_easting:.3f} {utm_northing:.3f}"
+            return lat_lon
 
 
 def utm_to_latlon(utm_str):
