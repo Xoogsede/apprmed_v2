@@ -20,7 +20,7 @@ with app.app_context():
         User.create_user(
             matricule='0444879129',
             fonction='auxiliaire sanitaire',
-            mdp='topsecret_')
+            mdp='1234')
 
 # Récupère le port de l'environnement ou utilise le port 8080 par défaut
 port = int(os.environ.get('PORT', 8080))
