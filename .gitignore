@@ -11,6 +11,9 @@ instance/*
 .brouillon.sql
 .brouillon.py
 brouillon/
+sql/bd/
+sql/forheroku.sql
+sql/FXTjuin.sql
 runtime.txt
 .importdonnees.sql
 .vs/
