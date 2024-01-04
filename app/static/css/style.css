@@ -32,3 +32,20 @@ background-color: #f5f6f7;
     padding-right: 100px;
     text-align: left;
     }
+.responsive-btn {
+    width: 100%;         /* Largeur adaptative à la taille de l'écran */
+    max-width: 300px;    /* Largeur maximale du bouton */
+    box-sizing: border-box; /* Pour inclure la bordure et la marge intérieure dans la largeur totale */
+}
+.jumbotron {
+    text-align: center;
+}
+
+.jumbotron > div, 
+.jumbotron > a {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+    

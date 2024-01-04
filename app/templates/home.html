@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
+<head>
+  <!-- Lien vers le fichier CSS -->
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
 <div class="jumbotron">
   {% if current_user.is_authenticated %}
   <h1>Bienvenue sur l'application de gestion des blessés.</h1>
   <p>Utilisez les boutons de navigation ci-dessous.</p>
   <br> 
-  <br> <a href="{{ url_for('auxsan.AjoutBlesse') }}" class="btn btn-primary btn-lg btn-block active" role="button"> Ajout blessé </a>
-  <br> <a href="{{ url_for('auxsan.MiseAJour') }}" class="btn btn-primary btn-lg btn-block active" role="button"> Mise à jour blessé </a>
-  <br> <a href="{{ url_for('auxsan.liste_blesses') }}" class="btn btn-primary btn-lg btn-block active" role="button"> Liste blessés </a>
+  <br> <a href="{{ url_for('auxsan.AjoutBlesse') }}" class="btn btn-primary btn-lg btn-block active responsive-btn" role="button"> Ajout blessé </a>
+  <br> <a href="{{ url_for('auxsan.MiseAJour') }}" class="btn btn-primary btn-lg btn-block active responsive-btn" role="button"> Mise à jour blessé </a>
+  <br> <a href="{{ url_for('auxsan.liste_blesses') }}" class="btn btn-primary btn-lg btn-block active responsive-btn" role="button"> Liste blessés </a>
  
   {% else%}
   <p><h2>Merci de vous enregister ou de vous connecter.</h2></p>
